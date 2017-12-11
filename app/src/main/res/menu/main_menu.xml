@@ -3,11 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item android:id="@+id/main_menu"
-          android:title="@string/menu_title">
-        <menu>
-            <!--<item android:id=""-->
-                  <!--android:title="" />-->
-        </menu>
+          android:title="some_item">
     </item>
 
     <item android:id="@+id/action_info"

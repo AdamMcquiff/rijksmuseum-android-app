@@ -3,6 +3,6 @@
     <string name="app_name">Art Without Frontiers</string>
 
     <!-- Menu-related strings -->
-    <string name="menu_title">Menu</string>
+    <!--<string name="menu_title">Menu</string>-->
     <string name="info_button_title">Ticket Information</string>
 </resources>

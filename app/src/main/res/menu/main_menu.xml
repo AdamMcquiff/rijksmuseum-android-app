@@ -2,21 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-    <item android:id="@+id/background"
-        android:title="Background">
+    <item android:id="@+id/main_menu"
+          android:title="@string/menu_title">
         <menu>
-            <item android:id="@+id/action_blue"
-                android:title="Blue"/>
-            <item android:id="@+id/action_grey"
-                android:title="Grey"/>
-            <item android:id="@+id/action_pink"
-                android:title="Pink"/>
+            <!--<item android:id=""-->
+                  <!--android:title="" />-->
         </menu>
     </item>
 
-    <item android:id="@+id/action_search"
-        android:title="Search"
-        android:icon="@drawable/info"
-        android:logo="@drawable/info"
-        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_info"
+          android:title="@string/info_button_title"
+          android:icon="@drawable/info"
+          android:logo="@drawable/info"
+          app:showAsAction="ifRoom" />
 </menu>

@@ -2,21 +2,23 @@ package com.cet325.bg72db;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ScrollView;
 
 public class MainActivity extends AppCompatActivity {
 
-    ConstraintLayout main_activity = null;
+    // TODO: Add CTA button event listener
+
+    ScrollView main_activity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        main_activity = (ConstraintLayout) findViewById(R.id.main_activity);
+        main_activity = (ScrollView) findViewById(R.id.main_activity);
         registerForContextMenu(main_activity);
     }
 

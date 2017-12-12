@@ -1,8 +1,19 @@
 <resources>
     <!-- High level app strings -->
-    <string name="app_name">Art Without Frontiers</string>
+    <string name="app_name">Rijksmuseum</string>
 
     <!-- Menu-related strings -->
-    <!--<string name="menu_title">Menu</string>-->
-    <string name="info_button_title">Ticket Information</string>
+    <string name="paintingsLinkTitle">Paintings</string>
+    <string name="aboutLinkTitle">About the App</string>
+    <string name="infoButtonTitle">Ticket Information</string>
+
+    <!-- Home screen strings -->
+    <string name="museum_logo_description">Museum Logo</string>
+    <string name="museum_bio">The Rijksmuseum is the museum of the Netherlands. In 2013, an entirely renovated Rijksmuseum opened its doors to the public. They are greeted by a stunning building, amazing interior design, wonderful exhibitions, lively events, and many fine amenities for young and old.</string>
+    <string name="discover_art_btn">Discover Art ></string>
+    <string name="rijksmuseum_exterior_description">Photograph of Rijksmuseum exterior</string>
+    <string name="commissioned_by_title">Android app commissioned by:</string>
+    <string name="art_without_frontiers_bio">We are a not-for-profit organisation with branches in many European countries, including the UK. We aim to promote the artistic heritage and promote cultural exchanges</string>
+    <string name="art_without_frontiers_logo_description">Art Without Frontiers Logo</string>
+
 </resources>

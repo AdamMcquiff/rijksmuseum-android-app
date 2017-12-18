@@ -37,7 +37,7 @@
                 android:lineSpacingExtra="8dp"
                 android:textColor="@color/colorPrimaryDark" />
 
-            <Button android:id="@+id/discoverArtBtn"
+            <Button android:id="@+id/discover_art_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/discover_art_btn"
@@ -50,13 +50,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:scaleType="fitStart"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/rijksmuseum_exterior_description"
-                app:srcCompat="@drawable/rijksmuseum_exterior" />
+            <!-- TODO: bring this image in without lag -->
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:scaleType="fitStart"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:contentDescription="@string/rijksmuseum_exterior_description"-->
+                <!--app:srcCompat="@drawable/rijksmuseum_exterior" />-->
 
         </LinearLayout>
 

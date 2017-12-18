@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="currencies">
+        <item>Euro (€)</item>
+        <item>GDP (£)</item>
+    </string-array>
+
+    <string-array name="currency_codes">
+        <item>EUR</item>
+        <item>GDP</item>
+    </string-array>
+</resources>

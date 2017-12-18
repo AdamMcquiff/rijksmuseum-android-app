@@ -16,4 +16,8 @@
     <string name="art_without_frontiers_bio">We are a not-for-profit organisation with branches in many European countries, including the UK. We aim to promote the artistic heritage and promote cultural exchanges</string>
     <string name="art_without_frontiers_logo_description">Art Without Frontiers Logo</string>
 
+    <!-- Currency exchange strings -->
+    <string name="currency_dialog_title">Please select a currency</string>
+    <string name="currency_placeholder">No prices currently available</string>
+
 </resources>

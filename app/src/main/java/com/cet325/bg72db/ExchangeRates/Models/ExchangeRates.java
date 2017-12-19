@@ -19,8 +19,4 @@ public class ExchangeRates {
         this.GBP = GBP;
     }
 
-    @Override
-    public String toString() {
-        return "BALL" + getBase() + " : " + getGBP();
-    }
 }

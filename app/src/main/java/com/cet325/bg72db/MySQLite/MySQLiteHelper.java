@@ -2,6 +2,7 @@ package com.cet325.bg72db.MySQLite;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -66,6 +67,49 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         db.insert(TABLE_PAINTINGS, null, values);
         db.close();
+    }
+
+    public Painting getPainting(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+            TABLE_PAINTINGS,
+            COLUMNS,
+            " id = ?",
+            new String[] { String.valueOf(id) },
+            null,
+            null,
+            null,
+            null
+        );
+
+        Painting painting = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            painting = new Painting();
+            painting.setId(Integer.parseInt(cursor.getString(0)));
+            painting.setArtist(cursor.getString(1));
+            painting.setTitle(cursor.getString(2));
+            painting.setRoom(cursor.getString(3));
+            painting.setDescription(cursor.getString(4));
+            painting.setYear(cursor.getInt(5));
+            painting.setRank(cursor.getInt(6));
+            Log.d("getPainting(" + id + ")", painting.toString());
+        }
+        cursor.close();
+        return painting;
+    }
+
+    private void populateDatabase() {
+        addPainting(new Painting("Caesar Boëtius van Everdingen", "Willem Jacobsz Baert (1636-84), Burgomaster of Alkmaar and Amsterdam", "", "Portret van Willem Jacobsz Baert, burgemeester van Alkmaar en Amsterdam. Ten halven lijve, staande met een handschoen in de linkerhand. Pendant van SK-A-1340.", "", 1671, 3));
+        addPainting(new Painting("Bartolommeo Vivarini", "Saint Cosmas (or Damian)", "", "Halffiguur van de heilige Cosmas (of misschien Damianus), in de hand een vierkante zalfdoos. Pendant van SK-A-4012.", "", 1460, 3));
+        addPainting(new Painting("Maarten van Heemskerck", "Portraits of a Couple", "", "Portret van een vrouw, vroeger geïdentificeerd als Anna Codde, de echtgenote van Pieter Gerritsz Bicker. Zittend, ten halven lijve, spinnend aan een spinnewiel. Pendant van SK-A-3518.", "", 1529, 4));
+        addPainting(new Painting("George Hendrik Breitner", "Ginger Pot wit Anemones", "", "Stilleven van een gemberpot met anemonen.", "", 1923, 3));
+        addPainting(new Painting("Abraham Teerlink", "Staande vrouw in Italiaanse klederdracht", "", "--", "", 1857, 3));
+        addPainting(new Painting("Johan Braakensiek", "Zittend meisje in klederdracht", "", "--", "", 1940, 3));
+        addPainting(new Painting("Johannes Frederik Engelbert ten Klooster", "Dalang, Johannes Frederik Engelbert ten Klooster", "", "--", "", 1928, 3));
+        addPainting(new Painting("Yashima Gakutei", "Dansende geisha's, Yashima Gakutei", "", "Twee geisha's dansen op een podium met lantarens boven hun hoofd, met in de achtergrond kersenbloesems en pijnbomen. Dit is het rechterblad van het vijfluik. Met twee gedichten.", "", 1824, 3));
+        addPainting(new Painting("Tokuriki Tomikichirô", "Vergezicht op de berg Fuji vanaf het station Kiyosato in Nagano", "", "Een bergketen waarachter de top van de besneeuwde berg Fuji; op de voorgrond een vlakte met voornamelijk kale bomen.", "", 1940, 5 ));
+        addPainting(new Painting("Thomas James Dixon", "Tijger in een dierentuin", "", "--", "", 1880, 4));
     }
 
 }

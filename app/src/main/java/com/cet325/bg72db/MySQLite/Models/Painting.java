@@ -11,6 +11,8 @@ public class Painting {
     private int year;
     private int rank;
 
+    public Painting() {}
+
     public Painting(String artist, String title, String room, String description, String image, int year, int rank) {
         this.artist = artist;
         this.title = title;
@@ -19,6 +21,13 @@ public class Painting {
         this.image = image;
         this.year = year;
         this.rank = rank;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getArtist() {

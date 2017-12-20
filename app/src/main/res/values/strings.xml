@@ -17,6 +17,8 @@
     <string name="art_without_frontiers_logo_description">Art Without Frontiers Logo</string>
 
     <!-- Currency exchange strings -->
+    <string name="default_currency">EUR</string>
+    <string name="key_default_currency">defaultCurrency</string>
     <string name="currency_dialog_title">Please select a currency</string>
     <string name="currency_placeholder">No prices currently available</string>
 

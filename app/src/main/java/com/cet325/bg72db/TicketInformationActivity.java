@@ -1,7 +1,9 @@
 package com.cet325.bg72db;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,9 +28,10 @@ public class TicketInformationActivity extends AppCompatActivity {
     TextView prices_text_view = null;
     FloatingActionButton currency_exchange_btn = null;
 
+    SharedPreferences shared_preferences = null;
     static double TICKET_PRICE_EURO = 10.00;
     double gbp_exchange_rate = 0.88;
-    String selected_currency = "EUR";
+    String selected_currency;
 
     private View.OnClickListener currency_exchange_event_listener = new View.OnClickListener() {
         public void onClick(View view) {
@@ -44,14 +47,29 @@ public class TicketInformationActivity extends AppCompatActivity {
         action_bar = getSupportActionBar();
         if (action_bar != null) action_bar.setDisplayHomeAsUpEnabled(true);
 
-        prices_text_view = findViewById(R.id.prices_textview);
-        updatePricesTextView(selected_currency);
+        shared_preferences = getPreferences(Context.MODE_PRIVATE);
+        selected_currency = shared_preferences.getString(
+                getResources().getString(R.string.key_default_currency),
+                getResources().getString(R.string.default_currency)
+        );
 
         currency_exchange_btn = findViewById(R.id.currency_action_button);
         currency_exchange_btn.setOnClickListener(currency_exchange_event_listener);
 
+        prices_text_view = findViewById(R.id.prices_textview);
+        updatePricesTextView(selected_currency);
+
         JSONExchangeRateTask task = new JSONExchangeRateTask();
-        task.execute("EUR");
+        task.execute(selected_currency);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        SharedPreferences.Editor editor = shared_preferences.edit();
+        editor.putString(getString(R.string.key_default_currency), selected_currency);
+        editor.apply();
     }
 
     @Override
@@ -80,10 +98,11 @@ public class TicketInformationActivity extends AppCompatActivity {
                 String[] currency_codes = getResources().getStringArray(R.array.currency_codes);
                 for (int i = 0; i < currencies.length; i++) {
                     if (selected == i) {
-                        // TODO: make this persistent (presumably in the database)
                         selected_currency = currency_codes[i];
                         updatePricesTextView(selected_currency);
-                        System.out.println("Current index is: " + i);
+                        SharedPreferences.Editor editor = shared_preferences.edit();
+                        editor.putString(getString(R.string.key_default_currency), selected_currency);
+                        editor.apply();
                     }
                 }
             }

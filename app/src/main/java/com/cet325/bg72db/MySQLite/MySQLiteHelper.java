@@ -9,6 +9,9 @@ import android.util.Log;
 
 import com.cet325.bg72db.MySQLite.Models.Painting;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -95,6 +98,101 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             painting.setRank(cursor.getInt(6));
             Log.d("getPainting(" + id + ")", painting.toString());
         }
+        cursor.close();
+        return painting;
+    }
+
+    public List<Painting> getAllPaintings() {
+        List<Painting> paintings = new LinkedList<>();
+
+        String query = "SELECT  * FROM " + TABLE_PAINTINGS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            Painting painting;
+            do {
+                painting = new Painting();
+                painting.setId(Integer.parseInt(cursor.getString(0)));
+                painting.setArtist(cursor.getString(1));
+                painting.setTitle(cursor.getString(2));
+                painting.setRoom(cursor.getString(3));
+                painting.setDescription(cursor.getString(4));
+                painting.setYear(cursor.getInt(5));
+                painting.setRank(cursor.getInt(6));
+                paintings.add(painting);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return paintings;
+    }
+
+    public int updatePainting(Painting painting) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ARTIST, painting.getArtist());
+        values.put(KEY_TITLE, painting.getTitle());
+        values.put(KEY_ROOM, painting.getRoom());
+        values.put(KEY_DESCRIPTION, painting.getDescription());
+        values.put(KEY_IMAGE, painting.getImage());
+        values.put(KEY_YEAR, painting.getYear());
+        values.put(KEY_RANK, painting.getRank());
+
+        int i = db.update(
+            TABLE_PAINTINGS,
+            values,
+            KEY_ID+" = ?",
+            new String[] { String.valueOf(painting.getId()) }
+        );
+
+        db.close();
+        return i;
+    }
+
+    public void deletePainting(Painting painting) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(
+            TABLE_PAINTINGS,
+            KEY_ID+" = ?",
+            new String[] { String.valueOf(painting.getId()) }
+        );
+
+        db.close();
+        Log.d("deleteTrack", painting.toString());
+    }
+
+    public Painting getPaintingByTitle(String title) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+            TABLE_PAINTINGS,
+            COLUMNS,
+            KEY_TITLE + " = ?",
+            new String[] { title },
+            null,
+            null,
+            null,
+            null
+        );
+
+        Painting painting = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            painting = new Painting();
+            painting.setId(Integer.parseInt(cursor.getString(0)));
+            painting.setArtist(cursor.getString(1));
+            painting.setTitle(cursor.getString(2));
+            painting.setRoom(cursor.getString(3));
+            painting.setDescription(cursor.getString(4));
+            painting.setYear(cursor.getInt(5));
+            painting.setRank(cursor.getInt(6));
+
+            Log.d("getTrack(" + title + ")", painting.toString());
+        }
+
         cursor.close();
         return painting;
     }

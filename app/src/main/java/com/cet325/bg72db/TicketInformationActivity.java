@@ -148,7 +148,7 @@ public class TicketInformationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ExchangeRates rates) {
             super.onPostExecute(rates);
-            gbp_exchange_rate = rates.getGBP();
+            if (rates != null)  gbp_exchange_rate = rates.getGBP();
         }
 
     }

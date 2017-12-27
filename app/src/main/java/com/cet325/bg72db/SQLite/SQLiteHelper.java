@@ -94,8 +94,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setTitle(cursor.getString(2));
             painting.setRoom(cursor.getString(3));
             painting.setDescription(cursor.getString(4));
-            painting.setYear(cursor.getInt(5));
-            painting.setRank(cursor.getInt(6));
+            painting.setYear(cursor.getInt(6));
+            painting.setRank(cursor.getInt(7));
             Log.d("getPainting(" + id + ")", painting.toString());
         }
         cursor.close();
@@ -119,8 +119,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 painting.setTitle(cursor.getString(2));
                 painting.setRoom(cursor.getString(3));
                 painting.setDescription(cursor.getString(4));
-                painting.setYear(cursor.getInt(5));
-                painting.setRank(cursor.getInt(6));
+                painting.setYear(cursor.getInt(6));
+                painting.setRank(cursor.getInt(7));
                 paintings.add(painting);
             } while (cursor.moveToNext());
         }
@@ -187,8 +187,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setTitle(cursor.getString(2));
             painting.setRoom(cursor.getString(3));
             painting.setDescription(cursor.getString(4));
-            painting.setYear(cursor.getInt(5));
-            painting.setRank(cursor.getInt(6));
+            painting.setYear(cursor.getInt(6));
+            painting.setRank(cursor.getInt(7));
 
             Log.d("getTrack(" + title + ")", painting.toString());
         }

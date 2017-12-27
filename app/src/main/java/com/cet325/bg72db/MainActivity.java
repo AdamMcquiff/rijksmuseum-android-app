@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private View.OnClickListener call_to_action_event_listener = new View.OnClickListener() {
         public void onClick(View view) {
-            Intent paintings_activity_intent = new Intent(getApplicationContext(), PaintingsActivity.class);
+            Intent paintings_activity_intent = new Intent(getApplicationContext(), PaintingsMasterActivity.class);
             startActivity(paintings_activity_intent);
         }
     };

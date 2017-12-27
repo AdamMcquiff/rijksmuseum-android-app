@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TicketInformationActivity" />
-        <activity android:name=".PaintingsActivity"></activity>
+        <activity android:name=".PaintingsMasterActivity"></activity>
     </application>
 
 </manifest>

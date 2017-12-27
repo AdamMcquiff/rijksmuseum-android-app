@@ -4,19 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.cet325.bg72db.SQLite.Models.Painting;
 import com.cet325.bg72db.SQLite.SQLiteHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PaintingsActivity extends AppCompatActivity {
+public class PaintingsMasterActivity extends AppCompatActivity {
 
     ActionBar action_bar = null;
     SQLiteHelper SqLiteHelper = null;
     List<Painting> allPaintings = null;
+    ListView paintingsListView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,17 @@ public class PaintingsActivity extends AppCompatActivity {
 
         SqLiteHelper = new SQLiteHelper(getApplicationContext());
         allPaintings = SqLiteHelper.getAllPaintings();
+
+        paintingsListView = findViewById(R.id.paintings_list_view);
+        final ArrayList<Painting> paintingsArrayList = new ArrayList<>(allPaintings);
+        String[] listItems = new String[paintingsArrayList.size()];
+        for (int i = 0; i < paintingsArrayList.size(); i++){
+            Painting painting = paintingsArrayList.get(i);
+            listItems[i] = painting.getTitle();
+        }
+        PaintingAdapter adapter = new PaintingAdapter(this, paintingsArrayList);
+        Log.d("allPaintings", allPaintings.toString());
+        paintingsListView.setAdapter(adapter);
     }
 
     @Override

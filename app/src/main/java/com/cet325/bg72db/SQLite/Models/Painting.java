@@ -81,7 +81,7 @@ public class Painting {
 
     @Override
     public String toString() {
-        return title + " by " + this.artist;
+        return title + " by " + this.artist + ". Complete " + this.year + ".";
     }
 
 }

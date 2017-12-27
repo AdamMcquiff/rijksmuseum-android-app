@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
 
-import com.cet325.bg72db.MySQLite.Models.Painting;
-import com.cet325.bg72db.MySQLite.MySQLiteHelper;
+import com.cet325.bg72db.SQLite.Models.Painting;
+import com.cet325.bg72db.SQLite.SQLiteHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     private View.OnClickListener call_to_action_event_listener = new View.OnClickListener() {
         public void onClick(View view) {
-            // TODO; add intent / event logic
+            Intent paintings_activity_intent = new Intent(getApplicationContext(), PaintingsActivity.class);
+            startActivity(paintings_activity_intent);
         }
     };
 
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDB() {
-        MySQLiteHelper db = new MySQLiteHelper(this);
+        SQLiteHelper db = new SQLiteHelper(this);
         // TODO: empty DB and figure out a way to only add if the DB doesn't exist
         db.addPainting(new Painting("Caesar Boëtius van Everdingen", "Willem Jacobsz Baert (1636-84), Burgomaster of Alkmaar and Amsterdam", "", "Portret van Willem Jacobsz Baert, burgemeester van Alkmaar en Amsterdam. Ten halven lijve, staande met een handschoen in de linkerhand. Pendant van SK-A-1340.", "", 1671, 3));
         db.addPainting(new Painting("Bartolommeo Vivarini", "Saint Cosmas (or Damian)", "", "Halffiguur van de heilige Cosmas (of misschien Damianus), in de hand een vierkante zalfdoos. Pendant van SK-A-4012.", "", 1460, 3));

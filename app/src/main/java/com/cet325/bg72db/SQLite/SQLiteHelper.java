@@ -1,4 +1,4 @@
-package com.cet325.bg72db.MySQLite;
+package com.cet325.bg72db.SQLite;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.cet325.bg72db.MySQLite.Models.Painting;
+import com.cet325.bg72db.SQLite.Models.Painting;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MySQLiteHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "MuseumDB";
@@ -31,7 +31,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         KEY_ID, KEY_ARTIST, KEY_TITLE, KEY_ROOM, KEY_DESCRIPTION, KEY_IMAGE, KEY_YEAR, KEY_RANK
     };
 
-    public MySQLiteHelper(Context context) {
+    public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

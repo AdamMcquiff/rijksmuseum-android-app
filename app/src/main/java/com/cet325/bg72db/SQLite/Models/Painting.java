@@ -1,4 +1,4 @@
-package com.cet325.bg72db.MySQLite.Models;
+package com.cet325.bg72db.SQLite.Models;
 
 public class Painting {
 

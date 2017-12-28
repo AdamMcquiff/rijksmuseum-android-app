@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cet325.bg72db.PaintingMasterActivity">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/filter_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/filter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sort_btn"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sort_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/sort"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/filter_btn"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/paintings_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+    
+</android.support.constraint.ConstraintLayout>

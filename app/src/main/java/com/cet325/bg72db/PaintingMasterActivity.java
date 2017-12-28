@@ -37,7 +37,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paintings);
+        setContentView(R.layout.activity_painting_master);
 
         action_bar = getSupportActionBar();
         if (action_bar != null) action_bar.setDisplayHomeAsUpEnabled(true);
@@ -77,4 +77,5 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

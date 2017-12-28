@@ -66,7 +66,6 @@ public class TicketInformationActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
-
         SharedPreferences.Editor editor = shared_preferences.edit();
         editor.putString(getString(R.string.key_default_currency), selected_currency);
         editor.apply();
@@ -131,7 +130,6 @@ public class TicketInformationActivity extends AppCompatActivity {
     }
 
     private class JSONExchangeRateTask extends AsyncTask<String, Void, ExchangeRates> {
-
         @Override
         protected ExchangeRates doInBackground(String... params) {
             ExchangeRates rates = new ExchangeRates();
@@ -150,8 +148,8 @@ public class TicketInformationActivity extends AppCompatActivity {
             super.onPostExecute(rates);
             if (rates != null)  gbp_exchange_rate = rates.getGBP();
         }
-
     }
+
 }
 
 

@@ -9,15 +9,15 @@ import android.view.MenuItem;
 
 public class PaintingDetailActivity extends AppCompatActivity {
 
-    ActionBar action_bar = null;
+    ActionBar actionBar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_painting_detail);
 
-        action_bar = getSupportActionBar();
-        if (action_bar != null) action_bar.setDisplayHomeAsUpEnabled(true);
+        actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -33,8 +33,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.action_info:
-                Intent ticket_info_activity_intent = new Intent(getApplicationContext(), TicketInformationActivity.class);
-                startActivity(ticket_info_activity_intent);
+                Intent ticketInfoActivityIntent = new Intent(getApplicationContext(), TicketInformationActivity.class);
+                startActivity(ticketInfoActivityIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

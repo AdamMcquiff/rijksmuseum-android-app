@@ -23,29 +23,29 @@ import java.util.List;
 
 public class PaintingMasterActivity extends AppCompatActivity {
 
-    ActionBar action_bar = null;
-    FloatingActionButton sort_btn = null;
-    FloatingActionButton filter_btn = null;
-    FloatingActionButton add_btn = null;
+    ActionBar actionBar = null;
+    FloatingActionButton sortBtn = null;
+    FloatingActionButton filterBtn = null;
+    FloatingActionButton addBtn = null;
 
     SQLiteHelper SqLiteHelper = null;
     List<Painting> allPaintings = null;
     ListView paintingsListView = null;
     ArrayList<Painting> paintingsArrayList = null;
 
-    private View.OnClickListener sort_rows_event_listener = new View.OnClickListener() {
+    private View.OnClickListener sortRowsEventListener = new View.OnClickListener() {
         public void onClick(View view) {
             buildRowSortDialog();
         }
     };
 
-    private View.OnClickListener filter_rows_event_listener = new View.OnClickListener() {
+    private View.OnClickListener filterRowsEventListener = new View.OnClickListener() {
         public void onClick(View view) {
             buildRowFilterDialog();
         }
     };
 
-    private AdapterView.OnItemClickListener row_event_listener = new AdapterView.OnItemClickListener() {
+    private AdapterView.OnItemClickListener rowEventListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Painting painting = paintingsArrayList.get(position);
             Intent detailIntent = new Intent(getApplicationContext(), PaintingDetailActivity.class);
@@ -60,20 +60,20 @@ public class PaintingMasterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_painting_master);
 
-        action_bar = getSupportActionBar();
-        if (action_bar != null) action_bar.setDisplayHomeAsUpEnabled(true);
+        actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        sort_btn = findViewById(R.id.sort_btn);
-        sort_btn.setOnClickListener(sort_rows_event_listener);
-        filter_btn = findViewById(R.id.filter_btn);
-        filter_btn.setOnClickListener(filter_rows_event_listener);
-        add_btn = findViewById(R.id.add_btn);
+        sortBtn = findViewById(R.id.sort_btn);
+        sortBtn.setOnClickListener(sortRowsEventListener);
+        filterBtn = findViewById(R.id.filter_btn);
+        filterBtn.setOnClickListener(filterRowsEventListener);
+        addBtn = findViewById(R.id.add_btn);
 
         SqLiteHelper = new SQLiteHelper(getApplicationContext());
         allPaintings = SqLiteHelper.getAllPaintings();
 
         paintingsListView = findViewById(R.id.paintings_list_view);
-        paintingsListView.setOnItemClickListener(row_event_listener);
+        paintingsListView.setOnItemClickListener(rowEventListener);
         paintingsArrayList = new ArrayList<>(allPaintings);
         sortRows(1);
     }
@@ -91,8 +91,8 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.action_info:
-                Intent ticket_info_activity_intent = new Intent(getApplicationContext(), TicketInformationActivity.class);
-                startActivity(ticket_info_activity_intent);
+                Intent ticketInfoActivityIntent = new Intent(getApplicationContext(), TicketInformationActivity.class);
+                startActivity(ticketInfoActivityIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

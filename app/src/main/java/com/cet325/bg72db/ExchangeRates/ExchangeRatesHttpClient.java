@@ -11,7 +11,6 @@ import java.net.URLEncoder;
 
 public class ExchangeRatesHttpClient {
 
-    //https://api.fixer.io/latest?base=EUR
     private static String BASE_URL = "https://api.fixer.io/latest?base=";
 
     public String getLatestRates(String baseCurrency) {
@@ -21,7 +20,6 @@ public class ExchangeRatesHttpClient {
 
         try {
             urlString = BASE_URL + URLEncoder.encode(baseCurrency, "UTF-8");
-            Log.d("urlString", urlString);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,12 +41,10 @@ public class ExchangeRatesHttpClient {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line;
             while ((line = br.readLine()) != null) {
-                Log.d("JSON-line", line);
                 buffer.append(line + "\r\n");
             }
             is.close();
             con.disconnect();
-            Log.d("JSON", buffer.toString());
             return buffer.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +52,6 @@ public class ExchangeRatesHttpClient {
             try { is.close(); } catch (Exception e) { e.printStackTrace(); }
             try { con.disconnect(); } catch (Exception e) { e.printStackTrace(); }
         }
-
         return null;
     }
 }

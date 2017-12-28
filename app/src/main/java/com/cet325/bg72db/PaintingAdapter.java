@@ -14,12 +14,10 @@ import java.util.ArrayList;
 
 public class PaintingAdapter extends BaseAdapter {
 
-    private Context context;
     private ArrayList<Painting> items;
     private LayoutInflater inflater;
 
     PaintingAdapter(Context context, ArrayList<Painting> items) {
-        this.context = context;
         this.items = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

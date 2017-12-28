@@ -24,16 +24,16 @@ import java.text.DecimalFormat;
 
 public class TicketInformationActivity extends AppCompatActivity {
 
-    ActionBar action_bar = null;
-    TextView prices_text_view = null;
-    FloatingActionButton currency_exchange_btn = null;
+    ActionBar actionBar = null;
+    TextView pricesTextView = null;
+    FloatingActionButton currencyExchangeBtn = null;
 
-    SharedPreferences shared_preferences = null;
+    SharedPreferences sharedPreferences = null;
     static double TICKET_PRICE_EURO = 10.00;
-    double gbp_exchange_rate = 0.88;
-    String selected_currency;
+    double gbpExchangeRate = 0.88;
+    String selectedCurrency;
 
-    private View.OnClickListener currency_exchange_event_listener = new View.OnClickListener() {
+    private View.OnClickListener currencyExchangeEventListener = new View.OnClickListener() {
         public void onClick(View view) {
             buildCurrencyDialog();
         }
@@ -44,30 +44,30 @@ public class TicketInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket_information);
 
-        action_bar = getSupportActionBar();
-        if (action_bar != null) action_bar.setDisplayHomeAsUpEnabled(true);
+        actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        shared_preferences = getPreferences(Context.MODE_PRIVATE);
-        selected_currency = shared_preferences.getString(
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        selectedCurrency = sharedPreferences.getString(
                 getResources().getString(R.string.key_default_currency),
                 getResources().getString(R.string.default_currency)
         );
 
-        currency_exchange_btn = findViewById(R.id.currency_action_button);
-        currency_exchange_btn.setOnClickListener(currency_exchange_event_listener);
+        currencyExchangeBtn = findViewById(R.id.currency_action_button);
+        currencyExchangeBtn.setOnClickListener(currencyExchangeEventListener);
 
-        prices_text_view = findViewById(R.id.prices_textview);
-        updatePricesTextView(selected_currency);
+        pricesTextView = findViewById(R.id.prices_textview);
+        updatePricesTextView(selectedCurrency);
 
         JSONExchangeRateTask task = new JSONExchangeRateTask();
-        task.execute(selected_currency);
+        task.execute(selectedCurrency);
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        SharedPreferences.Editor editor = shared_preferences.edit();
-        editor.putString(getString(R.string.key_default_currency), selected_currency);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.key_default_currency), selectedCurrency);
         editor.apply();
     }
 
@@ -94,13 +94,13 @@ public class TicketInformationActivity extends AppCompatActivity {
         builder.setItems(R.array.currencies, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int selected) {
                 String[] currencies = getResources().getStringArray(R.array.currencies);
-                String[] currency_codes = getResources().getStringArray(R.array.currency_codes);
+                String[] currencyCodes = getResources().getStringArray(R.array.currency_codes);
                 for (int i = 0; i < currencies.length; i++) {
                     if (selected == i) {
-                        selected_currency = currency_codes[i];
-                        updatePricesTextView(selected_currency);
-                        SharedPreferences.Editor editor = shared_preferences.edit();
-                        editor.putString(getString(R.string.key_default_currency), selected_currency);
+                        selectedCurrency = currencyCodes[i];
+                        updatePricesTextView(selectedCurrency);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(getString(R.string.key_default_currency), selectedCurrency);
                         editor.apply();
                     }
                 }
@@ -121,12 +121,12 @@ public class TicketInformationActivity extends AppCompatActivity {
                 string += "€" + df.format(ticketPrice) + "\nStudent: €" + df.format(ticketPrice * .7);
                 break;
             case "GDP":
-                ticketPrice = 10 * gbp_exchange_rate;
+                ticketPrice = 10 * gbpExchangeRate;
                 string += "£" + df.format(ticketPrice) + "\nStudent: £" + df.format(ticketPrice * .7);
                 break;
         }
         string += "\nChildren (under 18): FREE";
-        prices_text_view.setText(string);
+        pricesTextView.setText(string);
     }
 
     private class JSONExchangeRateTask extends AsyncTask<String, Void, ExchangeRates> {
@@ -146,7 +146,7 @@ public class TicketInformationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ExchangeRates rates) {
             super.onPostExecute(rates);
-            if (rates != null)  gbp_exchange_rate = rates.getGBP();
+            if (rates != null) gbpExchangeRate = rates.getGBP();
         }
     }
 

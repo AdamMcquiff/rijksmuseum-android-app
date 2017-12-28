@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cet325.bg72db.PaintingsMasterActivity">
+    tools:context="com.cet325.bg72db.PaintingMasterActivity">
 
     <ListView
         android:id="@+id/paintings_list_view"

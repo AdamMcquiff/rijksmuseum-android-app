@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cet325.bg72db.SQLite.Models.Painting;
@@ -15,12 +16,23 @@ import com.cet325.bg72db.SQLite.SQLiteHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaintingsMasterActivity extends AppCompatActivity {
+public class PaintingMasterActivity extends AppCompatActivity {
 
     ActionBar action_bar = null;
     SQLiteHelper SqLiteHelper = null;
     List<Painting> allPaintings = null;
     ListView paintingsListView = null;
+    ArrayList<Painting> paintingsArrayList = null;
+
+    private AdapterView.OnItemClickListener row_event_listener = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Painting painting = paintingsArrayList.get(position);
+            Intent detailIntent = new Intent(getApplicationContext(), PaintingDetailActivity.class);
+            detailIntent.putExtra("title", painting.getTitle());
+            detailIntent.putExtra("artist", painting.getArtist());
+            startActivity(detailIntent);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +46,15 @@ public class PaintingsMasterActivity extends AppCompatActivity {
         allPaintings = SqLiteHelper.getAllPaintings();
 
         paintingsListView = findViewById(R.id.paintings_list_view);
-        final ArrayList<Painting> paintingsArrayList = new ArrayList<>(allPaintings);
+        paintingsArrayList = new ArrayList<>(allPaintings);
         String[] listItems = new String[paintingsArrayList.size()];
         for (int i = 0; i < paintingsArrayList.size(); i++){
             Painting painting = paintingsArrayList.get(i);
             listItems[i] = painting.getTitle();
         }
         PaintingAdapter adapter = new PaintingAdapter(this, paintingsArrayList);
-        Log.d("allPaintings", allPaintings.toString());
         paintingsListView.setAdapter(adapter);
+        paintingsListView.setOnItemClickListener(row_event_listener);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class PaintingAdapter extends BaseAdapter {
     private ArrayList<Painting> items;
     private LayoutInflater inflater;
 
-    public PaintingAdapter(Context context, ArrayList<Painting> items) {
+    PaintingAdapter(Context context, ArrayList<Painting> items) {
         this.context = context;
         this.items = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,19 +41,38 @@ public class PaintingAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View row = inflater.inflate(R.layout.list_item_painting, parent, false);
-        TextView titleTextView = row.findViewById(R.id.painting_list_title);
-        TextView artistTextView = row.findViewById(R.id.painting_list_artist);
-        TextView yearTextView = row.findViewById(R.id.painting_list_year);
-        ImageView thumbnailImageView = row.findViewById(R.id.painting_list_thumbnail);
+        // Implemented ViewHolder design pattern for faster ListView rendering.
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.list_item_painting, parent, false);
+            holder = new ViewHolder();
+            holder.thumbnailImageView = convertView.findViewById(R.id.painting_list_thumbnail);
+            holder.titleTextView = convertView.findViewById(R.id.painting_list_title);
+            holder.artistTextView = convertView.findViewById(R.id.painting_list_artist);
+            holder.yearTextView = convertView.findViewById(R.id.painting_list_year);
+            convertView.setTag(holder);
+        } else holder = (ViewHolder) convertView.getTag();
+
+        TextView titleTextView = holder.titleTextView;
+        TextView artistTextView = holder.artistTextView;
+        TextView yearTextView = holder.yearTextView;
+        ImageView thumbnailImageView = holder.thumbnailImageView;
 
         Painting painting = (Painting) getItem(position);
         titleTextView.setText(painting.getTitle());
         artistTextView.setText(painting.getArtist());
+        // TODO: sort this out
         yearTextView.setText("Complete " + Integer.toString(painting.getYear()));
 
 //        Picasso.with(context).load(recipe.imageUrl).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
 
-        return row;
+        return convertView;
+    }
+
+    private static class ViewHolder {
+        TextView titleTextView;
+        TextView artistTextView;
+        TextView yearTextView;
+        ImageView thumbnailImageView;
     }
 }

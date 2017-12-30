@@ -6,10 +6,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class PaintingDetailActivity extends AppCompatActivity {
 
     ActionBar actionBar = null;
+    TextView paintingTitle = null;
+    TextView paintingArtist = null;
+    TextView paintingYear = null;
+    TextView paintingDescription = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +23,16 @@ public class PaintingDetailActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+
+        paintingTitle = findViewById(R.id.painting_title);
+        paintingArtist = findViewById(R.id.painting_artist);
+        paintingYear = findViewById(R.id.painting_year);
+        paintingDescription = findViewById(R.id.painting_description);
+        paintingTitle.setText(this.getIntent().getExtras().getString("title"));
+        paintingArtist.setText(this.getIntent().getExtras().getString("artist"));
+        paintingYear.setText(this.getIntent().getExtras().getString("year"));
+        paintingDescription.setText(this.getIntent().getExtras().getString("description"));
+
     }
 
     @Override

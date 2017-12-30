@@ -44,7 +44,7 @@ public class PaintingAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item_painting, parent, false);
             holder = new ViewHolder();
-            holder.thumbnailImageView = convertView.findViewById(R.id.painting_list_thumbnail);
+//            holder.thumbnailImageView = convertView.findViewById(R.id.painting_list_thumbnail);
             holder.titleTextView = convertView.findViewById(R.id.painting_list_title);
             holder.artistTextView = convertView.findViewById(R.id.painting_list_artist);
             holder.yearTextView = convertView.findViewById(R.id.painting_list_year);
@@ -54,7 +54,7 @@ public class PaintingAdapter extends BaseAdapter {
         TextView titleTextView = holder.titleTextView;
         TextView artistTextView = holder.artistTextView;
         TextView yearTextView = holder.yearTextView;
-        ImageView thumbnailImageView = holder.thumbnailImageView;
+//        ImageView thumbnailImageView = holder.thumbnailImageView;
 
         Painting painting = (Painting) getItem(position);
         titleTextView.setText(painting.getTitle());

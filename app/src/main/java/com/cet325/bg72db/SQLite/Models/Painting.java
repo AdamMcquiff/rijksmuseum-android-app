@@ -10,10 +10,11 @@ public class Painting {
     private String image;
     private int year;
     private int rank;
+    private String addedBy;
 
     public Painting() {}
 
-    public Painting(String artist, String title, String room, String description, String image, int year, int rank) {
+    public Painting(String artist, String title, String room, String description, String image, int year, int rank, String addedBy) {
         this.artist = artist;
         this.title = title;
         this.room = room;
@@ -21,6 +22,7 @@ public class Painting {
         this.image = image;
         this.year = year;
         this.rank = rank;
+        this.addedBy = addedBy;
     }
 
     public int getId() {
@@ -77,6 +79,13 @@ public class Painting {
     }
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public String getAddedBy() {
+        return addedBy;
+    }
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
     }
 
     @Override

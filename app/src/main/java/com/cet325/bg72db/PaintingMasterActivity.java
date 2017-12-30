@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,6 +92,15 @@ public class PaintingMasterActivity extends AppCompatActivity {
         paintingsListView = findViewById(R.id.paintings_list_view);
         paintingsListView.setOnItemClickListener(rowEventListener);
         paintingsArrayList = new ArrayList<>(allPaintings);
+        sortRows(0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        allPaintings = SqLiteHelper.getAllPaintings();
+        paintingsArrayList = new ArrayList<>(allPaintings);
+        Log.d("allPaint", "hit");
         sortRows(0);
     }
 
@@ -181,7 +191,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
                         }
 
                         if (formValid) {
-                            Painting painting = new Painting(artist, title, room, desc, "", year, rank);
+                            Painting painting = new Painting(artist, title, room, desc, "", year, rank, "User");
                             SqLiteHelper.addPainting(painting);
                             dialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Painting successfully added", Toast.LENGTH_LONG).show();

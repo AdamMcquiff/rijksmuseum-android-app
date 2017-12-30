@@ -29,6 +29,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
     TextView paintingDescription = null;
     TextView paintingRoom = null;
     TextView paintingRank = null;
+    Button deletePaintingBtn = null;
 
     SQLiteHelper sqLiteHelper = null;
     Painting painting = null;
@@ -36,6 +37,12 @@ public class PaintingDetailActivity extends AppCompatActivity {
     private View.OnClickListener editPaintingDialogEventListener = new View.OnClickListener() {
         public void onClick(View view) {
             buildEditPaintingDialog();
+        }
+    };
+
+    private View.OnClickListener deletePaintingDialogEventListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            buildDeletePaintingDialog();
         }
     };
 
@@ -52,7 +59,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
 
         sqLiteHelper = new SQLiteHelper(getApplicationContext());
 
-        painting = sqLiteHelper.getPainting(this.getIntent().getExtras().getInt("id"));
+        painting = sqLiteHelper.getPaintingByTitle(this.getIntent().getExtras().getString("title"));
 
         paintingTitle = findViewById(R.id.painting_title);
         paintingArtist = findViewById(R.id.painting_artist);
@@ -62,6 +69,12 @@ public class PaintingDetailActivity extends AppCompatActivity {
         paintingRank = findViewById(R.id.painting_rank);
 
         updateTextFields();
+
+        deletePaintingBtn = findViewById(R.id.delete_painting_btn);
+        if (painting.getAddedBy().equals("User")) {
+            deletePaintingBtn.setVisibility(View.VISIBLE);
+            deletePaintingBtn.setOnClickListener(deletePaintingDialogEventListener);
+        }
     }
 
     @Override
@@ -95,6 +108,15 @@ public class PaintingDetailActivity extends AppCompatActivity {
         final EditText yearField = inflaterView.findViewById(R.id.edit_painting_year);
         final EditText rankField = inflaterView.findViewById(R.id.edit_painting_rank);
 
+        // if Painting was not added by user, disable relevant fields.
+        if (painting.getAddedBy().equals("App")) {
+            artistField.setEnabled(false);
+            titleField.setEnabled(false);
+            descField.setEnabled(false);
+            roomField.setEnabled(false);
+            yearField.setEnabled(false);
+        }
+
         titleField.setText(painting.getTitle());
         artistField.setText(painting.getArtist());
         descField.setText(painting.getDescription());
@@ -117,7 +139,6 @@ public class PaintingDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         boolean formValid = false;
-
                         String artist = artistField.getText().toString();
                         String title = titleField.getText().toString();
                         String room = roomField.getText().toString();
@@ -147,6 +168,23 @@ public class PaintingDetailActivity extends AppCompatActivity {
                 });
             }
         });
+
+        dialog.show();
+    }
+
+    private void buildDeletePaintingDialog() {
+        // TODO: change title
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.currency_dialog_title)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        sqLiteHelper.deletePainting(painting);
+                        Toast.makeText(getApplicationContext(), "Painting successfully delete", Toast.LENGTH_LONG).show();
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
 
         dialog.show();
     }

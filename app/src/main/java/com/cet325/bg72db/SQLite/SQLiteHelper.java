@@ -26,9 +26,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_IMAGE = "image";
     private static final String KEY_YEAR = "year";
     private static final String KEY_RANK = "rank";
+    private static final String KEY_ADDED_BY = "added_by";
 
     private static final String[] COLUMNS = {
-        KEY_ID, KEY_ARTIST, KEY_TITLE, KEY_ROOM, KEY_DESCRIPTION, KEY_IMAGE, KEY_YEAR, KEY_RANK
+        KEY_ID, KEY_ARTIST, KEY_TITLE, KEY_ROOM, KEY_DESCRIPTION, KEY_IMAGE, KEY_YEAR, KEY_RANK, KEY_ADDED_BY
     };
 
     public SQLiteHelper(Context context) {
@@ -45,7 +46,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "description TEXT, "+
             "image TEXT, "+
             "year INT, "+
-            "rank INT " +
+            "rank INT, " +
+            "added_by TEXT "+
         ")";
         db.execSQL(CREATE_PAINTINGS_TABLE);
     }
@@ -67,6 +69,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_IMAGE, painting.getImage());
         values.put(KEY_YEAR, painting.getYear());
         values.put(KEY_RANK, painting.getRank());
+        values.put(KEY_ADDED_BY, painting.getAddedBy());
 
         db.insert(TABLE_PAINTINGS, null, values);
         db.close();
@@ -96,7 +99,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setDescription(cursor.getString(4));
             painting.setYear(cursor.getInt(6));
             painting.setRank(cursor.getInt(7));
-            Log.d("getPainting(" + id + ")", painting.toString());
+            painting.setAddedBy(cursor.getString(8));
         }
         cursor.close();
         return painting;
@@ -121,6 +124,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 painting.setDescription(cursor.getString(4));
                 painting.setYear(cursor.getInt(6));
                 painting.setRank(cursor.getInt(7));
+                painting.setAddedBy(cursor.getString(8));
                 paintings.add(painting);
             } while (cursor.moveToNext());
         }
@@ -140,6 +144,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_IMAGE, painting.getImage());
         values.put(KEY_YEAR, painting.getYear());
         values.put(KEY_RANK, painting.getRank());
+        values.put(KEY_ADDED_BY, painting.getAddedBy());
 
         int i = db.update(
             TABLE_PAINTINGS,
@@ -189,8 +194,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setDescription(cursor.getString(4));
             painting.setYear(cursor.getInt(6));
             painting.setRank(cursor.getInt(7));
-
-            Log.d("getTrack(" + title + ")", painting.toString());
+            painting.setAddedBy(cursor.getString(8));
         }
 
         cursor.close();

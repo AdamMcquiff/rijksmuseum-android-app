@@ -138,21 +138,16 @@ public class PaintingDetailActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean formValid = false;
                         String artist = artistField.getText().toString();
                         String title = titleField.getText().toString();
                         String room = roomField.getText().toString();
                         String desc = descField.getText().toString();
-                        int year = Integer.parseInt(yearField.getText().toString());
-                        int rank = Integer.parseInt(rankField.getText().toString());
+                        int year = 0;
+                        int rank = 0;
+                        if (yearField.length() > 0) year = Integer.parseInt(yearField.getText().toString());
+                        if (rankField.length() > 0) rank = Integer.parseInt(rankField.getText().toString());
 
-                        if (artist.length() > 0 && title.length() > 0 && Integer.toString(year).length() == 4) {
-                            formValid = true;
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Your form has an error.", Toast.LENGTH_LONG).show();
-                        }
-
-                        if (formValid) {
+                        if (isFormValid(artist, title, year, rank)) {
                             painting.setArtist(artist);
                             painting.setTitle(title);
                             painting.setRoom(room);
@@ -161,8 +156,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
                             painting.setRank(rank);
                             sqLiteHelper.updatePainting(painting);
                             updateTextFields();
-                            dialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Painting successfully edited", Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
                         }
                     }
                 });
@@ -170,6 +165,23 @@ public class PaintingDetailActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private boolean isFormValid(String artist, String title, int year, int rank) {
+        if (title.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Painting Title is required.", Toast.LENGTH_LONG).show();
+            return false;
+        } else if (artist.length() == 0) {
+            Toast.makeText(getApplicationContext(), "Painting Artist is required.", Toast.LENGTH_LONG).show();
+            return false;
+        }else if (Integer.toString(year).length() < 4) {
+            Toast.makeText(getApplicationContext(), "Painting Year is required and must be 4 digits.", Toast.LENGTH_LONG).show();
+            return false;
+        } else if (rank < 0 || rank > 5) {
+            Toast.makeText(getApplicationContext(), "Painting Rank must be between 0 and 5. Please enter 0 if un-ranked.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 
     private void buildDeletePaintingDialog() {

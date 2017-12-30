@@ -22,4 +22,8 @@
     <string name="currency_dialog_title">Please select a currency</string>
     <string name="currency_placeholder">No prices currently available</string>
 
+    <!-- Painting detail activity strings -->
+    <string name="detail_painting_year">Complete %1$s</string>
+    <string name="detail_painting_room">Located in room %1$s</string>
+    <string name="detail_painting_rank">User rank: %1$s</string>
 </resources>

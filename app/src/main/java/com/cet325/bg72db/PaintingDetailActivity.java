@@ -1,22 +1,43 @@
 package com.cet325.bg72db;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.cet325.bg72db.SQLite.Models.Painting;
+import com.cet325.bg72db.SQLite.SQLiteHelper;
 
 public class PaintingDetailActivity extends AppCompatActivity {
 
     ActionBar actionBar = null;
+    FloatingActionButton editBtn = null;
     TextView paintingTitle = null;
     TextView paintingArtist = null;
     TextView paintingYear = null;
     TextView paintingDescription = null;
     TextView paintingRoom = null;
     TextView paintingRank = null;
+
+    SQLiteHelper sqLiteHelper = null;
+    Painting painting = null;
+
+    private View.OnClickListener editPaintingDialogEventListener = new View.OnClickListener() {
+        public void onClick(View view) {
+            buildEditPaintingDialog();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +47,13 @@ public class PaintingDetailActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
+        editBtn = findViewById(R.id.edit_btn);
+        editBtn.setOnClickListener(editPaintingDialogEventListener);
+
+        sqLiteHelper = new SQLiteHelper(getApplicationContext());
+
+        painting = sqLiteHelper.getPainting(this.getIntent().getExtras().getInt("id"));
+
         paintingTitle = findViewById(R.id.painting_title);
         paintingArtist = findViewById(R.id.painting_artist);
         paintingYear = findViewById(R.id.painting_year);
@@ -33,13 +61,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
         paintingRoom = findViewById(R.id.painting_room);
         paintingRank = findViewById(R.id.painting_rank);
 
-        // TODO: fix this
-        paintingTitle.setText(this.getIntent().getExtras().getString("title"));
-        paintingArtist.setText(this.getIntent().getExtras().getString("artist"));
-        paintingYear.setText("Complete " + this.getIntent().getExtras().getString("year"));
-        paintingDescription.setText(this.getIntent().getExtras().getString("description"));
-        paintingRoom.setText("Located in room " + this.getIntent().getExtras().getString("room"));
-        paintingRank.setText("User Rank: " + this.getIntent().getExtras().getString("rank"));
+        updateTextFields();
     }
 
     @Override
@@ -61,5 +83,80 @@ public class PaintingDetailActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void buildEditPaintingDialog() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final View inflaterView = inflater.inflate(R.layout.add_painting_dialog, null);
+        final EditText titleField = inflaterView.findViewById(R.id.edit_painting_title);
+        final EditText artistField = inflaterView.findViewById(R.id.edit_painting_artist);
+        final EditText descField = inflaterView.findViewById(R.id.edit_painting_description);
+        final EditText roomField = inflaterView.findViewById(R.id.edit_painting_room);
+        final EditText yearField = inflaterView.findViewById(R.id.edit_painting_year);
+        final EditText rankField = inflaterView.findViewById(R.id.edit_painting_rank);
+
+        titleField.setText(painting.getTitle());
+        artistField.setText(painting.getArtist());
+        descField.setText(painting.getDescription());
+        roomField.setText(painting.getRoom());
+        yearField.setText(Integer.toString(painting.getYear()));
+        rankField.setText(Integer.toString(painting.getRank()));
+
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.currency_dialog_title)
+                .setView(inflaterView)
+                .setPositiveButton("Confirm changes", null)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = ((AlertDialog) dialogInterface).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean formValid = false;
+
+                        String artist = artistField.getText().toString();
+                        String title = titleField.getText().toString();
+                        String room = roomField.getText().toString();
+                        String desc = descField.getText().toString();
+                        int year = Integer.parseInt(yearField.getText().toString());
+                        int rank = Integer.parseInt(rankField.getText().toString());
+
+                        if (artist.length() > 0 && title.length() > 0 && Integer.toString(year).length() == 4) {
+                            formValid = true;
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Your form has an error.", Toast.LENGTH_LONG).show();
+                        }
+
+                        if (formValid) {
+                            painting.setArtist(artist);
+                            painting.setTitle(title);
+                            painting.setRoom(room);
+                            painting.setDescription(desc);
+                            painting.setYear(year);
+                            painting.setRank(rank);
+                            sqLiteHelper.updatePainting(painting);
+                            updateTextFields();
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Painting successfully edited", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void updateTextFields() {
+        paintingTitle.setText(painting.getTitle());
+        paintingArtist.setText(painting.getArtist());
+        paintingDescription.setText(painting.getDescription());
+        paintingRoom.setText(getString(R.string.detail_painting_room, painting.getRoom()));
+        paintingYear.setText(getString(R.string.detail_painting_year, Integer.toString(painting.getYear())));
+        paintingRank.setText(getString(R.string.detail_painting_rank, Integer.toString(painting.getRank())));
     }
 }

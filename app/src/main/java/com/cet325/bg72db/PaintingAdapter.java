@@ -14,10 +14,12 @@ import java.util.ArrayList;
 
 public class PaintingAdapter extends BaseAdapter {
 
+    private Context context;
     private ArrayList<Painting> items;
     private LayoutInflater inflater;
 
     PaintingAdapter(Context context, ArrayList<Painting> items) {
+        this.context = context;
         this.items = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -59,8 +61,7 @@ public class PaintingAdapter extends BaseAdapter {
         Painting painting = (Painting) getItem(position);
         titleTextView.setText(painting.getTitle());
         artistTextView.setText(painting.getArtist());
-        // TODO: sort this out
-        yearTextView.setText("Complete " + Integer.toString(painting.getYear()));
+        yearTextView.setText(context.getResources().getString(R.string.detail_painting_year, Integer.toString(painting.getYear())));
 
 //        Picasso.with(context).load(recipe.imageUrl).placeholder(R.mipmap.ic_launcher).into(thumbnailImageView);
 

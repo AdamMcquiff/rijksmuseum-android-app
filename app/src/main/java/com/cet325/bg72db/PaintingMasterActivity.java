@@ -59,6 +59,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Painting painting = paintingsArrayList.get(position);
             Intent detailIntent = new Intent(getApplicationContext(), PaintingDetailActivity.class);
+            detailIntent.putExtra("id", painting.getId());
             detailIntent.putExtra("title", painting.getTitle());
             detailIntent.putExtra("artist", painting.getArtist());
             detailIntent.putExtra("year", Integer.toString(painting.getYear()));
@@ -115,37 +116,38 @@ public class PaintingMasterActivity extends AppCompatActivity {
     }
 
     private void buildRowSortDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // TODO: add these dialog strings
-        builder.setTitle(R.string.currency_dialog_title);
-        builder.setItems(R.array.sortable_options, new DialogInterface.OnClickListener() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.currency_dialog_title)
+                .setItems(R.array.sortable_options, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int selected) {
-                sortRows(selected);
-            }
-        });
-        AlertDialog ad = builder.create();
-        ad.show();
+                        sortRows(selected);
+                    }
+                })
+                .create();
+
+        dialog.show();
     }
 
     private void buildRowFilterDialog() {
-        // TODO: refactor all dialogs to one liners
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.currency_dialog_title);
-        builder.setItems(R.array.filter_options, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int selected) {
-                filterRows(selected);
-            }
-        });
-        AlertDialog ad = builder.create();
-        ad.show();
+        AlertDialog dialog = new AlertDialog.Builder(this)
+            .setTitle(R.string.currency_dialog_title)
+            .setItems(R.array.filter_options, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int selected) {
+                    filterRows(selected);
+                }
+            })
+            .create();
+
+        dialog.show();
     }
 
     private void buildAddPaintingDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
-        final View inflatorView = inflater.inflate(R.layout.add_painting_dialog, null);
+        final View inflaterView = inflater.inflate(R.layout.add_painting_dialog, null);
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.currency_dialog_title)
-                .setView(inflatorView)
+                .setView(inflaterView)
                 .setPositiveButton("Add painting", null)
                 .setNegativeButton("Cancel", null)
                 .create();
@@ -158,12 +160,12 @@ public class PaintingMasterActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         boolean formValid = false;
-                        EditText titleField = inflatorView.findViewById(R.id.edit_painting_title);
-                        EditText artistField = inflatorView.findViewById(R.id.edit_painting_artist);
-                        EditText yearField = inflatorView.findViewById(R.id.edit_painting_year);
-                        EditText roomField = inflatorView.findViewById(R.id.edit_painting_room);
-                        EditText descField = inflatorView.findViewById(R.id.edit_painting_description);
-                        EditText rankField = inflatorView.findViewById(R.id.edit_painting_rank);
+                        EditText titleField = inflaterView.findViewById(R.id.edit_painting_title);
+                        EditText artistField = inflaterView.findViewById(R.id.edit_painting_artist);
+                        EditText yearField = inflaterView.findViewById(R.id.edit_painting_year);
+                        EditText roomField = inflaterView.findViewById(R.id.edit_painting_room);
+                        EditText descField = inflaterView.findViewById(R.id.edit_painting_description);
+                        EditText rankField = inflaterView.findViewById(R.id.edit_painting_rank);
 
                         String artist = artistField.getText().toString();
                         String title = titleField.getText().toString();

@@ -63,6 +63,8 @@ public class PaintingMasterActivity extends AppCompatActivity {
             detailIntent.putExtra("artist", painting.getArtist());
             detailIntent.putExtra("year", Integer.toString(painting.getYear()));
             detailIntent.putExtra("description", painting.getDescription());
+            detailIntent.putExtra("room", painting.getRoom());
+            detailIntent.putExtra("rank", Integer.toString(painting.getRank()));
             startActivity(detailIntent);
         }
     };

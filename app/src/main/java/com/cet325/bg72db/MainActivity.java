@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupDB() {
         SQLiteHelper db = new SQLiteHelper(this);
         if (db.getAllPaintings().size() == 0) {
+            // TODO: add rooms
             db.addPainting(new Painting("Caesar Boëtius van Everdingen", "Willem Jacobsz Baert (1636-84), Burgomaster of Alkmaar and Amsterdam", "", "Portret van Willem Jacobsz Baert, burgemeester van Alkmaar en Amsterdam. Ten halven lijve, staande met een handschoen in de linkerhand. Pendant van SK-A-1340.", "", 1671, 0));
             db.addPainting(new Painting("Bartolommeo Vivarini", "Saint Cosmas (or Damian)", "", "Halffiguur van de heilige Cosmas (of misschien Damianus), in de hand een vierkante zalfdoos. Pendant van SK-A-4012.", "", 1460, 0));
             db.addPainting(new Painting("Maarten van Heemskerck", "Portraits of a Couple", "", "Portret van een vrouw, vroeger geïdentificeerd als Anna Codde, de echtgenote van Pieter Gerritsz Bicker. Zittend, ten halven lijve, spinnend aan een spinnewiel. Pendant van SK-A-3518.", "", 1529, 0));

@@ -15,6 +15,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
     TextView paintingArtist = null;
     TextView paintingYear = null;
     TextView paintingDescription = null;
+    TextView paintingRoom = null;
+    TextView paintingRank = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +30,16 @@ public class PaintingDetailActivity extends AppCompatActivity {
         paintingArtist = findViewById(R.id.painting_artist);
         paintingYear = findViewById(R.id.painting_year);
         paintingDescription = findViewById(R.id.painting_description);
+        paintingRoom = findViewById(R.id.painting_room);
+        paintingRank = findViewById(R.id.painting_rank);
+
+        // TODO: fix this
         paintingTitle.setText(this.getIntent().getExtras().getString("title"));
         paintingArtist.setText(this.getIntent().getExtras().getString("artist"));
-        paintingYear.setText(this.getIntent().getExtras().getString("year"));
+        paintingYear.setText("Complete " + this.getIntent().getExtras().getString("year"));
         paintingDescription.setText(this.getIntent().getExtras().getString("description"));
-
+        paintingRoom.setText("Located in room " + this.getIntent().getExtras().getString("room"));
+        paintingRank.setText("User Rank: " + this.getIntent().getExtras().getString("rank"));
     }
 
     @Override

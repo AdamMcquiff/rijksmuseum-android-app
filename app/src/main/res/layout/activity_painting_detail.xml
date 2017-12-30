@@ -44,6 +44,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/mediumPadding" />
 
+        <TextView
+            android:id="@+id/painting_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumPadding" />
+
+        <TextView
+            android:id="@+id/painting_rank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mediumPadding" />
+
     </LinearLayout>
 
 </LinearLayout>

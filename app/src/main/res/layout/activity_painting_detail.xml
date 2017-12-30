@@ -79,13 +79,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/mediumPadding" />
 
-                <!-- TODO: put in strings file -->
                 <Button
                     android:id="@+id/delete_painting_btn"
                     android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Delete painting"
+                    android:text="@string/detail_painting_delete_btn"
                     android:layout_marginTop="@dimen/mediumPadding"/>
 
             </LinearLayout>

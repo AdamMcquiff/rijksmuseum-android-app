@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item android:id="@+id/paintings_link"
-          android:title="@string/paintingsLinkTitle">
+          android:title="@string/paintings_link_title">
     </item>
     <item android:id="@+id/about_link"
-        android:title="@string/aboutLinkTitle">
+        android:title="@string/about_link_title">
     </item>
 
     <item android:id="@+id/action_info"
-          android:title="@string/infoButtonTitle"
+          android:title="@string/info_button_title"
           android:icon="@drawable/info"
           android:logo="@drawable/info"
           app:showAsAction="ifRoom" />

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.cet325.bg72db.SQLite.Models.Painting;
 
@@ -167,7 +166,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         );
 
         db.close();
-        Log.d("deleteTrack", painting.toString());
     }
 
     public Painting getPaintingByTitle(String title) {

@@ -126,37 +126,34 @@ public class PaintingMasterActivity extends AppCompatActivity {
     }
 
     private void buildRowSortDialog() {
-        // TODO: add these dialog strings
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.currency_dialog_title)
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.master_painting_sort_dialog_title)
                 .setItems(R.array.sortable_options, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int selected) {
                         sortRows(selected);
                     }
                 })
-                .create();
-
-        dialog.show();
+                .create()
+                .show();
     }
 
     private void buildRowFilterDialog() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
-            .setTitle(R.string.currency_dialog_title)
+        new AlertDialog.Builder(this)
+            .setTitle(R.string.master_painting_filter_dialog_title)
             .setItems(R.array.filter_options, new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int selected) {
                     filterRows(selected);
                 }
             })
-            .create();
-
-        dialog.show();
+            .create()
+            .show();
     }
 
     private void buildAddPaintingDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         final View inflaterView = inflater.inflate(R.layout.add_painting_dialog, null);
         final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.currency_dialog_title)
+                .setTitle(R.string.master_painting_add_dialog_title)
                 .setView(inflaterView)
                 .setPositiveButton("Add painting", null)
                 .setNegativeButton("Cancel", null)

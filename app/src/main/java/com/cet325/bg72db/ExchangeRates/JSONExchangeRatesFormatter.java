@@ -1,7 +1,5 @@
 package com.cet325.bg72db.ExchangeRates;
 
-import android.util.Log;
-
 import com.cet325.bg72db.ExchangeRates.Models.ExchangeRates;
 
 import org.json.JSONException;

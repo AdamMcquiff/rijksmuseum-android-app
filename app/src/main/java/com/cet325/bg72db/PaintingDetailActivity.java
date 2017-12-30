@@ -125,7 +125,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
         rankField.setText(Integer.toString(painting.getRank()));
 
         final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.currency_dialog_title)
+                .setTitle(R.string.detail_painting_edit_dialog_title)
                 .setView(inflaterView)
                 .setPositiveButton("Confirm changes", null)
                 .setNegativeButton("Cancel", null)
@@ -173,9 +173,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
     }
 
     private void buildDeletePaintingDialog() {
-        // TODO: change title
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.currency_dialog_title)
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.detail_painting_delete_dialog_title)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         sqLiteHelper.deletePainting(painting);
@@ -184,9 +183,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
                     }
                 })
                 .setNegativeButton("Cancel", null)
-                .create();
-
-        dialog.show();
+                .create()
+                .show();
     }
 
     private void updateTextFields() {

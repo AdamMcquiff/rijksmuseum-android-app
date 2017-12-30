@@ -3,9 +3,9 @@
     <string name="app_name">Rijksmuseum</string>
 
     <!-- Menu-related strings -->
-    <string name="paintingsLinkTitle">Paintings</string>
-    <string name="aboutLinkTitle">About the App</string>
-    <string name="infoButtonTitle">Ticket Information</string>
+    <string name="paintings_link_title">Paintings</string>
+    <string name="about_link_title">About the App</string>
+    <string name="info_button_title">Ticket Information</string>
 
     <!-- Home screen strings -->
     <string name="museum_logo_description">Museum Logo</string>
@@ -17,13 +17,23 @@
     <string name="art_without_frontiers_logo_description">Art Without Frontiers Logo</string>
 
     <!-- Currency exchange strings -->
+    <string name="currency_activity_title">Ticket Prices</string>
     <string name="default_currency">EUR</string>
     <string name="key_default_currency">defaultCurrency</string>
     <string name="currency_dialog_title">Please select a currency</string>
     <string name="currency_placeholder">No prices currently available</string>
+    <string name="currency_final_string">Adult (18+): %1$s%2$s\nStudent: %1$s%3$s\nChildren (under 18): FREE</string>
+
+    <!-- Painting master activity strings -->
+    <string name="master_painting_sort_dialog_title">Please select a sorting order</string>
+    <string name="master_painting_filter_dialog_title">Please select an painting filter</string>
+    <string name="master_painting_add_dialog_title">Add a new painting</string>
 
     <!-- Painting detail activity strings -->
     <string name="detail_painting_year">Complete %1$s</string>
     <string name="detail_painting_room">Located in room %1$s</string>
     <string name="detail_painting_rank">User rank: %1$s</string>
+    <string name="detail_painting_delete_dialog_title">Are you sure you want to delete this painting?</string>
+    <string name="detail_painting_edit_dialog_title">Edit painting</string>
+    <string name="detail_painting_delete_btn">Delete painting</string>
 </resources>

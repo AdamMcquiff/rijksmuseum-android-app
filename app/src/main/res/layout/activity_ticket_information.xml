@@ -13,11 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- TODO: string resource -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ticket Prices"
+            android:text="@string/currency_activity_title"
             android:textSize="20sp"
             android:lineSpacingExtra="8dp"
             android:textColor="@color/colorAccent"
@@ -25,7 +24,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/prices_textview"
+            android:id="@+id/prices_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/currency_placeholder"

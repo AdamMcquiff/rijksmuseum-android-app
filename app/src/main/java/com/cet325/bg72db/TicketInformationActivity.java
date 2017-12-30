@@ -21,6 +21,8 @@ import com.cet325.bg72db.ExchangeRates.Models.ExchangeRates;
 import org.json.JSONException;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class TicketInformationActivity extends AppCompatActivity {
 
@@ -56,7 +58,7 @@ public class TicketInformationActivity extends AppCompatActivity {
         currencyExchangeBtn = findViewById(R.id.currency_action_button);
         currencyExchangeBtn.setOnClickListener(currencyExchangeEventListener);
 
-        pricesTextView = findViewById(R.id.prices_textview);
+        pricesTextView = findViewById(R.id.prices_text_view);
         updatePricesTextView(selectedCurrency);
 
         JSONExchangeRateTask task = new JSONExchangeRateTask();
@@ -111,22 +113,24 @@ public class TicketInformationActivity extends AppCompatActivity {
     }
 
     private void updatePricesTextView(String currency) {
-        String string = "Adult (18+): ";
-        DecimalFormat df = new DecimalFormat(".##"); // TODO: make this word for Euro in format X,XX
+        DecimalFormat df = new DecimalFormat(".##");
         df.setMinimumFractionDigits(2);
-        double ticketPrice;
+        double ticketPrice = 0.0;
+        String currencySymbol = "";
         switch (currency) {
             case "EUR":
+                DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+                otherSymbols.setDecimalSeparator(',');
+                df.setDecimalFormatSymbols(otherSymbols);
                 ticketPrice = TICKET_PRICE_EURO;
-                string += "€" + df.format(ticketPrice) + "\nStudent: €" + df.format(ticketPrice * .7);
+                currencySymbol = "€";
                 break;
             case "GDP":
                 ticketPrice = 10 * gbpExchangeRate;
-                string += "£" + df.format(ticketPrice) + "\nStudent: £" + df.format(ticketPrice * .7);
+                currencySymbol = "£";
                 break;
         }
-        string += "\nChildren (under 18): FREE";
-        pricesTextView.setText(string);
+        pricesTextView.setText(getString(R.string.currency_final_string, currencySymbol, df.format(ticketPrice), df.format(ticketPrice * .7)));
     }
 
     private class JSONExchangeRateTask extends AsyncTask<String, Void, ExchangeRates> {

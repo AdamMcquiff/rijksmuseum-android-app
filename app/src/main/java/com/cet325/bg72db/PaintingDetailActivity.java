@@ -3,6 +3,8 @@ package com.cet325.bg72db;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -13,16 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cet325.bg72db.SQLite.Models.Painting;
 import com.cet325.bg72db.SQLite.SQLiteHelper;
 
+import java.io.ByteArrayInputStream;
+
 public class PaintingDetailActivity extends AppCompatActivity {
 
     ActionBar actionBar = null;
     FloatingActionButton editBtn = null;
+    ImageView paintingImage = null;
     TextView paintingTitle = null;
     TextView paintingArtist = null;
     TextView paintingYear = null;
@@ -61,6 +67,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
 
         painting = sqLiteHelper.getPaintingByTitle(this.getIntent().getExtras().getString("title"));
 
+        paintingImage = findViewById(R.id.painting_image);
         paintingTitle = findViewById(R.id.painting_title);
         paintingArtist = findViewById(R.id.painting_artist);
         paintingYear = findViewById(R.id.painting_year);
@@ -200,6 +207,14 @@ public class PaintingDetailActivity extends AppCompatActivity {
     }
 
     private void updateTextFields() {
+        if (painting.getImage() != null) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 4;
+            ByteArrayInputStream is = new ByteArrayInputStream(painting.getImage());
+            Bitmap image = BitmapFactory.decodeStream(is, null, options);
+            paintingImage.setImageBitmap(image);
+
+        }
         paintingTitle.setText(painting.getTitle());
         paintingArtist.setText(painting.getArtist());
         paintingDescription.setText(painting.getDescription());

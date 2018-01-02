@@ -7,14 +7,14 @@ public class Painting {
     private String title;
     private String room;
     private String description;
-    private String image;
+    private byte[] image;
     private int year;
     private int rank;
     private String addedBy;
 
     public Painting() {}
 
-    public Painting(String artist, String title, String room, String description, String image, int year, int rank, String addedBy) {
+    public Painting(String artist, String title, String room, String description, byte[] image, int year, int rank, String addedBy) {
         this.artist = artist;
         this.title = title;
         this.room = room;
@@ -60,10 +60,10 @@ public class Painting {
         this.description = description;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

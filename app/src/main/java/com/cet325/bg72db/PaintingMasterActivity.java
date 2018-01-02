@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +37,8 @@ public class PaintingMasterActivity extends AppCompatActivity {
     ListView paintingsListView = null;
     ArrayList<Painting> paintingsArrayList = null;
 
+    PaintingAdapter adapter = null;
+
     private View.OnClickListener sortRowsEventListener = new View.OnClickListener() {
         public void onClick(View view) {
             buildRowSortDialog();
@@ -59,15 +60,10 @@ public class PaintingMasterActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener rowEventListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Painting painting = paintingsArrayList.get(position);
-            Intent detailIntent = new Intent(getApplicationContext(), PaintingDetailActivity.class);
-            detailIntent.putExtra("id", painting.getId());
-            detailIntent.putExtra("title", painting.getTitle());
-            detailIntent.putExtra("artist", painting.getArtist());
-            detailIntent.putExtra("year", Integer.toString(painting.getYear()));
-            detailIntent.putExtra("description", painting.getDescription());
-            detailIntent.putExtra("room", painting.getRoom());
-            detailIntent.putExtra("rank", Integer.toString(painting.getRank()));
-            startActivity(detailIntent);
+            Intent intent = new Intent(getApplicationContext(), PaintingDetailActivity.class);
+            intent.putExtra("id", painting.getId());
+            intent.putExtra("title", painting.getTitle());
+            startActivity(intent);
         }
     };
 
@@ -100,7 +96,6 @@ public class PaintingMasterActivity extends AppCompatActivity {
         super.onResume();
         allPaintings = SqLiteHelper.getAllPaintings();
         paintingsArrayList = new ArrayList<>(allPaintings);
-        Log.d("allPaint", "hit");
         sortRows(0);
     }
 
@@ -129,7 +124,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.master_painting_sort_dialog_title)
                 .setItems(R.array.sortable_options, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int selected) {
+                    public void onClick(DialogInterface dialog, int selected) {
                         sortRows(selected);
                     }
                 })
@@ -141,7 +136,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
             .setTitle(R.string.master_painting_filter_dialog_title)
             .setItems(R.array.filter_options, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int selected) {
+                public void onClick(DialogInterface dialog, int selected) {
                     filterRows(selected);
                 }
             })
@@ -183,7 +178,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
                         if (rankField.length() > 0) rank = Integer.parseInt(rankField.getText().toString());
 
                         if (isFormValid(artist, title, year, rank)) {
-                            Painting painting = new Painting(artist, title, room, desc, "", year, rank, "User");
+                            Painting painting = new Painting(artist, title, room, desc, null, year, rank, "User");
                             SqLiteHelper.addPainting(painting);
                             paintingsArrayList.add(painting);
                             sortRows(0);
@@ -269,7 +264,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
     }
 
     private void setupRowAdapter() {
-        PaintingAdapter adapter = new PaintingAdapter(this, paintingsArrayList);
+        adapter = new PaintingAdapter(this, paintingsArrayList);
         paintingsListView.setAdapter(adapter);
     }
 

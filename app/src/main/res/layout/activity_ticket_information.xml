@@ -19,7 +19,7 @@
             android:text="@string/currency_activity_title"
             android:textSize="20sp"
             android:lineSpacingExtra="8dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimaryDark"
             android:paddingBottom="@dimen/mediumPadding"
             android:textStyle="bold" />
 
@@ -30,7 +30,7 @@
             android:text="@string/currency_placeholder"
             android:textSize="16sp"
             android:lineSpacingExtra="8dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimary"
             android:paddingBottom="@dimen/mediumPadding" />
 
     </LinearLayout>

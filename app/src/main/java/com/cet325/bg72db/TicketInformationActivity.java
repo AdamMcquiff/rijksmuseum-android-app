@@ -57,10 +57,10 @@ public class TicketInformationActivity extends AppCompatActivity {
                 getResources().getString(R.string.default_currency)
         );
 
-        currencyExchangeBtn = findViewById(R.id.currency_action_button);
+        currencyExchangeBtn = (FloatingActionButton) findViewById(R.id.currency_action_button);
         currencyExchangeBtn.setOnClickListener(currencyExchangeEventListener);
 
-        pricesTextView = findViewById(R.id.prices_text_view);
+        pricesTextView = (TextView) findViewById(R.id.prices_text_view);
         updatePricesTextView(selectedCurrency);
 
         JSONExchangeRateTask task = new JSONExchangeRateTask();

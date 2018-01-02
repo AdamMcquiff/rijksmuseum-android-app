@@ -66,24 +66,24 @@ public class PaintingDetailActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        editBtn = findViewById(R.id.edit_btn);
+        editBtn = (FloatingActionButton) findViewById(R.id.edit_btn);
         editBtn.setOnClickListener(editPaintingDialogEventListener);
 
         sqLiteHelper = new SQLiteHelper(getApplicationContext());
 
         painting = sqLiteHelper.getPaintingByTitle(this.getIntent().getExtras().getString("title"));
 
-        paintingImage = findViewById(R.id.painting_image);
-        paintingTitle = findViewById(R.id.painting_title);
-        paintingArtist = findViewById(R.id.painting_artist);
-        paintingYear = findViewById(R.id.painting_year);
-        paintingDescription = findViewById(R.id.painting_description);
-        paintingRoom = findViewById(R.id.painting_room);
-        paintingRank = findViewById(R.id.painting_rank);
+        paintingImage = (ImageView) findViewById(R.id.painting_image);
+        paintingTitle = (TextView) findViewById(R.id.painting_title);
+        paintingArtist = (TextView) findViewById(R.id.painting_artist);
+        paintingYear = (TextView) findViewById(R.id.painting_year);
+        paintingDescription = (TextView) findViewById(R.id.painting_description);
+        paintingRoom = (TextView) findViewById(R.id.painting_room);
+        paintingRank = (TextView) findViewById(R.id.painting_rank);
 
         updateTextFields();
 
-        deletePaintingBtn = findViewById(R.id.delete_painting_btn);
+        deletePaintingBtn = (Button) findViewById(R.id.delete_painting_btn);
 
         // If painting added by user, show the 'Delete Painting' button
         if (painting.getAddedBy().equals("User")) {
@@ -124,12 +124,12 @@ public class PaintingDetailActivity extends AppCompatActivity {
     private void buildEditPaintingDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         final View inflaterView = inflater.inflate(R.layout.add_painting_dialog, null);
-        final EditText titleField = inflaterView.findViewById(R.id.edit_painting_title);
-        final EditText artistField = inflaterView.findViewById(R.id.edit_painting_artist);
-        final EditText descField = inflaterView.findViewById(R.id.edit_painting_description);
-        final EditText roomField = inflaterView.findViewById(R.id.edit_painting_room);
-        final EditText yearField = inflaterView.findViewById(R.id.edit_painting_year);
-        final EditText rankField = inflaterView.findViewById(R.id.edit_painting_rank);
+        final EditText titleField = (EditText) inflaterView.findViewById(R.id.edit_painting_title);
+        final EditText artistField = (EditText) inflaterView.findViewById(R.id.edit_painting_artist);
+        final EditText descField = (EditText) inflaterView.findViewById(R.id.edit_painting_description);
+        final EditText roomField = (EditText) inflaterView.findViewById(R.id.edit_painting_room);
+        final EditText yearField = (EditText) inflaterView.findViewById(R.id.edit_painting_year);
+        final EditText rankField = (EditText) inflaterView.findViewById(R.id.edit_painting_rank);
 
         // if Painting was not added by user, disable relevant fields.
         if (painting.getAddedBy().equals("App")) {

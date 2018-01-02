@@ -55,10 +55,10 @@ public class PaintingAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item_painting, parent, false);
             holder = new ViewHolder();
-            holder.thumbnailImageView = convertView.findViewById(R.id.painting_list_thumbnail);
-            holder.titleTextView = convertView.findViewById(R.id.painting_list_title);
-            holder.artistTextView = convertView.findViewById(R.id.painting_list_artist);
-            holder.yearTextView = convertView.findViewById(R.id.painting_list_year);
+            holder.thumbnailImageView = (ImageView) convertView.findViewById(R.id.painting_list_thumbnail);
+            holder.titleTextView = (TextView) convertView.findViewById(R.id.painting_list_title);
+            holder.artistTextView = (TextView) convertView.findViewById(R.id.painting_list_artist);
+            holder.yearTextView = (TextView) convertView.findViewById(R.id.painting_list_year);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

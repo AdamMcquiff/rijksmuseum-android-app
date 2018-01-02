@@ -21,14 +21,15 @@
             android:background="@color/colorMedium"
             android:padding="@dimen/largePadding">
 
-            <ImageView android:id="@+id/museum_logo"
+            <ImageView
+                android:id="@+id/museum_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:scaleType="fitStart"
                 android:adjustViewBounds="true"
                 android:paddingBottom="@dimen/mediumPadding"
                 android:contentDescription="@string/museum_logo_description"
-                app:srcCompat="@drawable/museum_logo" />
+                android:src="@drawable/museum_logo" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -69,7 +70,7 @@
                 android:adjustViewBounds="true"
                 android:paddingBottom="@dimen/mediumPadding"
                 android:contentDescription="@string/museum_logo_description"
-                app:srcCompat="@drawable/awf_logo" />
+                android:src="@drawable/awf_logo" />
 
             <TextView
                 android:layout_width="match_parent"

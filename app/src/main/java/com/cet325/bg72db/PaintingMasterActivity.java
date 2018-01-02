@@ -79,17 +79,17 @@ public class PaintingMasterActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        sortBtn = findViewById(R.id.sort_btn);
+        sortBtn = (FloatingActionButton) findViewById(R.id.sort_btn);
         sortBtn.setOnClickListener(sortRowsEventListener);
-        filterBtn = findViewById(R.id.filter_btn);
+        filterBtn = (FloatingActionButton) findViewById(R.id.filter_btn);
         filterBtn.setOnClickListener(filterRowsEventListener);
-        addBtn = findViewById(R.id.add_btn);
+        addBtn = (FloatingActionButton) findViewById(R.id.add_btn);
         addBtn.setOnClickListener(addPaintingDialogEventListener);
 
         SqLiteHelper = new SQLiteHelper(getApplicationContext());
         allPaintings = SqLiteHelper.getAllPaintings();
 
-        paintingsListView = findViewById(R.id.paintings_list_view);
+        paintingsListView = (ListView) findViewById(R.id.paintings_list_view);
         paintingsListView.setOnItemClickListener(rowEventListener);
         paintingsArrayList = new ArrayList<>(allPaintings);
         reorderListViewRows(selectedSortCriteria);
@@ -169,12 +169,12 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText titleField = inflaterView.findViewById(R.id.edit_painting_title);
-                        EditText artistField = inflaterView.findViewById(R.id.edit_painting_artist);
-                        EditText yearField = inflaterView.findViewById(R.id.edit_painting_year);
-                        EditText roomField = inflaterView.findViewById(R.id.edit_painting_room);
-                        EditText descField = inflaterView.findViewById(R.id.edit_painting_description);
-                        EditText rankField = inflaterView.findViewById(R.id.edit_painting_rank);
+                        EditText titleField = (EditText) inflaterView.findViewById(R.id.edit_painting_title);
+                        EditText artistField = (EditText) inflaterView.findViewById(R.id.edit_painting_artist);
+                        EditText yearField = (EditText) inflaterView.findViewById(R.id.edit_painting_year);
+                        EditText roomField = (EditText) inflaterView.findViewById(R.id.edit_painting_room);
+                        EditText descField = (EditText) inflaterView.findViewById(R.id.edit_painting_description);
+                        EditText rankField = (EditText) inflaterView.findViewById(R.id.edit_painting_rank);
 
                         String artist = artistField.getText().toString();
                         String title = titleField.getText().toString();

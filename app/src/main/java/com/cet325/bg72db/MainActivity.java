@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainActivity = findViewById(R.id.main_activity);
+        mainActivity = (ScrollView) findViewById(R.id.main_activity);
         registerForContextMenu(mainActivity);
 
-        callToActionBtn = findViewById(R.id.discover_art_btn);
+        callToActionBtn = (Button) findViewById(R.id.discover_art_btn);
         callToActionBtn.setOnClickListener(callToActionEventListener);
     }
 

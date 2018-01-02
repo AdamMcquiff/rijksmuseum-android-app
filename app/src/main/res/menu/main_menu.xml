@@ -5,8 +5,8 @@
     <item android:id="@+id/paintings_link"
           android:title="@string/paintings_link_title">
     </item>
-    <item android:id="@+id/about_link"
-        android:title="@string/about_link_title">
+    <item android:id="@+id/find_us"
+        android:title="@string/find_us_link_title">
     </item>
 
     <item android:id="@+id/action_info"

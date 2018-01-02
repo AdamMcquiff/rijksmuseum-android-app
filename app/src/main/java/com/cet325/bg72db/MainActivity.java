@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent ticketInfoActivityIntent = new Intent(getApplicationContext(), TicketInformationActivity.class);
                 startActivity(ticketInfoActivityIntent);
                 return true;
+            case R.id.find_us:
+                Intent findUsActivityIntent = new Intent(getApplicationContext(), FindUsActivity.class);
+                startActivity(findUsActivityIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

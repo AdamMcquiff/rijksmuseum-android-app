@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,57 +7,121 @@
     android:orientation="vertical"
     android:padding="@dimen/mediumPadding">
 
-    <!-- TODO: add text labels instead of reliance on hint attributes -->
-    <!-- TODO: add hints / labels into strings file -->
-    <EditText
-        android:id="@+id/edit_painting_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Painting title"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edit_painting_artist"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Painting artist"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/painting_dialog_title_field_title"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/edit_painting_room"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Painting room"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical" />
+        <EditText
+            android:id="@+id/edit_painting_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/painting_dialog_title_field_hint"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
 
-    <EditText
-        android:id="@+id/edit_painting_description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Painting description"
-        android:inputType="textMultiLine"
-        android:scrollbars="vertical" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/painting_dialog_artist_field_title"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="4dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/edit_painting_year"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Painting year"
-        android:maxLength="4"
-        android:inputType="number"
-        android:scrollbars="vertical" />
+        <EditText
+            android:id="@+id/edit_painting_artist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/painting_dialog_artist_field_hint"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
 
-    <EditText
-        android:id="@+id/edit_painting_rank"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Painting rank (0-5)"
-        android:inputType="number"
-        android:maxLength="1"
-        android:ems="10"
-        android:scrollbars="vertical" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/painting_dialog_room_field_title"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="4dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textSize="16sp" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/edit_painting_room"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/painting_dialog_room_field_hint"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/painting_dialog_description_field_title"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="4dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edit_painting_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/painting_dialog_description_field_hint"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/painting_dialog_year_field_title"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="4dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edit_painting_year"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/painting_dialog_year_field_hint"
+            android:maxLength="4"
+            android:inputType="number"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/painting_dialog_rank_field_title"
+            android:textColor="@color/colorPrimary"
+            android:paddingTop="4dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edit_painting_rank"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/painting_dialog_rank_field_hint"
+            android:inputType="number"
+            android:maxLength="1"
+            android:ems="10"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+</ScrollView>

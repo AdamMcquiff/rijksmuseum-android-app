@@ -201,7 +201,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         sqLiteHelper.deletePainting(painting);
-                        Toast.makeText(getApplicationContext(), "Painting successfully delete", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Painting successfully deleted", Toast.LENGTH_LONG).show();
                         onBackPressed();
                     }
                 })

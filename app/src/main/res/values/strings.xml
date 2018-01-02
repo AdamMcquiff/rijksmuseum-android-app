@@ -1,10 +1,12 @@
 <resources>
     <!-- High level app strings -->
     <string name="app_name">Rijksmuseum</string>
+    <string name="museum_name">Rijksmuseum</string>
+    <string name="museum_address">"Museumstraat 1, 1071 XX Amsterdam, Netherlands"</string>
 
     <!-- Menu-related strings -->
     <string name="paintings_link_title">Paintings</string>
-    <string name="about_link_title">About the App</string>
+    <string name="find_us_link_title">Find the Museum</string>
     <string name="info_button_title">Ticket Information</string>
 
     <!-- Home screen strings -->
@@ -36,4 +38,19 @@
     <string name="detail_painting_delete_dialog_title">Are you sure you want to delete this painting?</string>
     <string name="detail_painting_edit_dialog_title">Edit painting</string>
     <string name="detail_painting_delete_btn">Delete painting</string>
+    <string name="title_activity_find_us">Map</string>
+
+    <!-- Add/Edit Painting dialog strings -->
+    <string name="painting_dialog_title_field_title">Painting title</string>
+    <string name="painting_dialog_title_field_hint">Enter a title&#8230;</string>
+    <string name="painting_dialog_artist_field_title">Painting artist</string>
+    <string name="painting_dialog_artist_field_hint">Enter an artist&#8230;</string>
+    <string name="painting_dialog_room_field_title">Painting room</string>
+    <string name="painting_dialog_room_field_hint">Enter a room&#8230;</string>
+    <string name="painting_dialog_description_field_title">Painting description</string>
+    <string name="painting_dialog_description_field_hint">Enter a description&#8230;</string>
+    <string name="painting_dialog_year_field_title">Painting year of completion</string>
+    <string name="painting_dialog_year_field_hint">Enter a year (format "XXXX")&#8230;</string>
+    <string name="painting_dialog_rank_field_title">Painting rank</string>
+    <string name="painting_dialog_rank_field_hint">Enter a ranking between 0&#8211;5&#8230;</string>
 </resources>

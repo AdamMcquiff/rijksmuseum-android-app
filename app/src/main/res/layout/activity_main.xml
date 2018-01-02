@@ -49,22 +49,6 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <!-- TODO: bring this image in without lag -->
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:scaleType="fitStart"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:contentDescription="@string/rijksmuseum_exterior_description"-->
-                <!--app:srcCompat="@drawable/rijksmuseum_exterior" />-->
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorLight"
             android:padding="@dimen/largePadding">
@@ -87,7 +71,6 @@
                 android:contentDescription="@string/museum_logo_description"
                 app:srcCompat="@drawable/awf_logo" />
 
-            <!-- TODO: store sizes into res file -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

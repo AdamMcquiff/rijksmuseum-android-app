@@ -1,6 +1,8 @@
 package com.cet325.bg72db;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,7 +24,9 @@ import android.widget.Toast;
 import com.cet325.bg72db.SQLite.Models.Painting;
 import com.cet325.bg72db.SQLite.SQLiteHelper;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class PaintingDetailActivity extends AppCompatActivity {
 
@@ -208,13 +212,19 @@ public class PaintingDetailActivity extends AppCompatActivity {
 
     private void updateTextFields() {
         if (painting.getImage() != null) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 4;
-            ByteArrayInputStream is = new ByteArrayInputStream(painting.getImage());
-            Bitmap image = BitmapFactory.decodeStream(is, null, options);
-            paintingImage.setImageBitmap(image);
-
+            try {
+                ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                File f = new File(dir, painting.getImage());
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 4;
+                Bitmap image = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+                paintingImage.setImageBitmap(image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+
         paintingTitle.setText(painting.getTitle());
         paintingArtist.setText(painting.getArtist());
         paintingDescription.setText(painting.getDescription());

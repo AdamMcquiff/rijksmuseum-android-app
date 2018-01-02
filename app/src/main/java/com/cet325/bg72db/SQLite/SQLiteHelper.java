@@ -43,7 +43,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "title TEXT, "+
             "room TEXT, "+
             "description TEXT, "+
-            "image BLOB, "+
+            "image TEXT, "+
             "year INT, "+
             "rank INT, " +
             "added_by TEXT "+
@@ -96,7 +96,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setTitle(cursor.getString(2));
             painting.setRoom(cursor.getString(3));
             painting.setDescription(cursor.getString(4));
-            painting.setImage(cursor.getBlob(5));
+            painting.setImage(cursor.getString(5));
             painting.setYear(cursor.getInt(6));
             painting.setRank(cursor.getInt(7));
             painting.setAddedBy(cursor.getString(8));
@@ -122,7 +122,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 painting.setTitle(cursor.getString(2));
                 painting.setRoom(cursor.getString(3));
                 painting.setDescription(cursor.getString(4));
-                painting.setImage(cursor.getBlob(5));
+                painting.setImage(cursor.getString(5));
                 painting.setYear(cursor.getInt(6));
                 painting.setRank(cursor.getInt(7));
                 painting.setAddedBy(cursor.getString(8));
@@ -192,7 +192,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setTitle(cursor.getString(2));
             painting.setRoom(cursor.getString(3));
             painting.setDescription(cursor.getString(4));
-            painting.setImage(cursor.getBlob(5));
+            painting.setImage(cursor.getString(5));
             painting.setYear(cursor.getInt(6));
             painting.setRank(cursor.getInt(7));
             painting.setAddedBy(cursor.getString(8));

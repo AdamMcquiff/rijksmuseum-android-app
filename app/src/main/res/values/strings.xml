@@ -3,6 +3,8 @@
     <string name="app_name">Rijksmuseum</string>
     <string name="museum_name">Rijksmuseum</string>
     <string name="museum_address">"Museumstraat 1, 1071 XX Amsterdam, Netherlands"</string>
+    <string name="museum_lat">52.360024</string>
+    <string name="museum_lng">4.885230</string>
 
     <!-- Menu-related strings -->
     <string name="paintings_link_title">Paintings</string>

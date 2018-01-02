@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent ticketInfoActivityIntent = new Intent(getApplicationContext(), TicketInformationActivity.class);
                 startActivity(ticketInfoActivityIntent);
                 return true;
+            case R.id.paintings_link:
+                Intent paintings_activity_intent = new Intent(getApplicationContext(), PaintingMasterActivity.class);
+                startActivity(paintings_activity_intent);
             case R.id.find_us:
                 Intent findUsActivityIntent = new Intent(getApplicationContext(), FindUsActivity.class);
                 startActivity(findUsActivityIntent);
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDB() {
         SQLiteHelper db = new SQLiteHelper(this);
+        // If the database is empty, populate it with new data, otherwise do nothing.
         if (db.getAllPaintings().size() == 0) {
             db.addPainting(new Painting("Caesar Boëtius van Everdingen", "Willem Jacobsz Baert (1636-84), Burgomaster of Alkmaar and Amsterdam", "A12", "Portret van Willem Jacobsz Baert, burgemeester van Alkmaar en Amsterdam. Ten halven lijve, staande met een handschoen in de linkerhand. Pendant van SK-A-1340.", saveImageInternallyAndGetDir(R.drawable.painting_1, "painting_1", Bitmap.CompressFormat.JPEG), 1671, 0, "App"));
             db.addPainting(new Painting("Bartolommeo Vivarini", "Saint Cosmas (or Damian)", "C32", "Halffiguur van de heilige Cosmas (of misschien Damianus), in de hand een vierkante zalfdoos. Pendant van SK-A-4012.", saveImageInternallyAndGetDir(R.drawable.painting_2, "painting_2", Bitmap.CompressFormat.JPEG), 1460, 0, "App"));

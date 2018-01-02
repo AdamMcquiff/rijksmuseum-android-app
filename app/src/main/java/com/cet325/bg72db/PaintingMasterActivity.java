@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +39,9 @@ public class PaintingMasterActivity extends AppCompatActivity {
     ArrayList<Painting> paintingsArrayList = null;
 
     PaintingAdapter adapter = null;
+
+    int selectedSortCriteria = 0;
+    int selectedFilterCriteria = 0;
 
     private View.OnClickListener sortRowsEventListener = new View.OnClickListener() {
         public void onClick(View view) {
@@ -88,7 +92,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
         paintingsListView = findViewById(R.id.paintings_list_view);
         paintingsListView.setOnItemClickListener(rowEventListener);
         paintingsArrayList = new ArrayList<>(allPaintings);
-        sortRows(0);
+        reorderListViewRows(selectedSortCriteria);
     }
 
     @Override
@@ -96,7 +100,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
         super.onResume();
         allPaintings = SqLiteHelper.getAllPaintings();
         paintingsArrayList = new ArrayList<>(allPaintings);
-        sortRows(0);
+        reorderListViewRows(selectedSortCriteria);
     }
 
     @Override
@@ -115,6 +119,10 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 Intent ticketInfoActivityIntent = new Intent(getApplicationContext(), TicketInformationActivity.class);
                 startActivity(ticketInfoActivityIntent);
                 return true;
+            case R.id.find_us:
+                Intent findUsActivityIntent = new Intent(getApplicationContext(), FindUsActivity.class);
+                startActivity(findUsActivityIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -125,7 +133,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 .setTitle(R.string.master_painting_sort_dialog_title)
                 .setItems(R.array.sortable_options, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int selected) {
-                        sortRows(selected);
+                        reorderListViewRows(selected);
                     }
                 })
                 .create()
@@ -172,16 +180,14 @@ public class PaintingMasterActivity extends AppCompatActivity {
                         String title = titleField.getText().toString();
                         String room = roomField.getText().toString();
                         String desc = descField.getText().toString();
-                        int year = 0;
-                        int rank = 0;
-                        if (yearField.length() > 0) year = Integer.parseInt(yearField.getText().toString());
-                        if (rankField.length() > 0) rank = Integer.parseInt(rankField.getText().toString());
+                        int year = yearField.length() > 0 ? Integer.parseInt(yearField.getText().toString()) : 0;
+                        int rank = rankField.length() > 0 ? Integer.parseInt(rankField.getText().toString()) : 0;
 
                         if (isFormValid(artist, title, year, rank)) {
                             Painting painting = new Painting(artist, title, room, desc, null, year, rank, "User");
                             SqLiteHelper.addPainting(painting);
                             paintingsArrayList.add(painting);
-                            sortRows(0);
+                            reorderListViewRows(selectedSortCriteria);
                             Toast.makeText(getApplicationContext(), "Painting successfully added", Toast.LENGTH_LONG).show();
                             dialog.dismiss();
                         }
@@ -209,43 +215,16 @@ public class PaintingMasterActivity extends AppCompatActivity {
         return true;
     }
 
-    private void sortRows(int selected) {
-        switch (selected) {
-            case 0:
-                Collections.sort(paintingsArrayList, new Comparator<Painting>(){
-                    public int compare(Painting a, Painting b) {
-                        return a.getTitle().compareTo(b.getTitle());
-                    }
-                });
-                break;
-            case 1:
-                Collections.sort(paintingsArrayList, new Comparator<Painting>(){
-                    public int compare(Painting a, Painting b) {
-                        int artistCompare = a.getArtist().compareTo(b.getArtist());
-                        return artistCompare != 0
-                            ? artistCompare
-                            : a.getTitle().compareTo(b.getTitle());
-                    }
-                });
-                break;
-            case 2:
-                Collections.sort(paintingsArrayList, new Comparator<Painting>(){
-                    public int compare(Painting a, Painting b) {
-                        return a.getRank() - b.getRank();
-                    }
-                });
-                break;
-            default:
-                break;
-        }
-        setupRowAdapter();
-    }
-
     private void filterRows(int selected) {
         List<Painting> paintings = new ArrayList<>();
         paintingsArrayList = new ArrayList<>(allPaintings);
+        Log.d("selected", Integer.toString(selected));
         switch (selected) {
+            case 0:
+                selectedFilterCriteria = 0;
+                break;
             case 1:
+                selectedFilterCriteria = 1;
                 for (int i = 0; i < paintingsArrayList.size(); i++) {
                     Painting painting = paintingsArrayList.get(i);
                     if (painting.getRank() != 0) paintings.add(painting);
@@ -253,11 +232,47 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 paintingsArrayList = new ArrayList<>(paintings);
                 break;
             case 2:
+                selectedFilterCriteria = 2;
                 for (int i = 0; i < paintingsArrayList.size(); i++) {
                     Painting painting = paintingsArrayList.get(i);
                     if (painting.getRank() == 0) paintings.add(painting);
                 }
                 paintingsArrayList = new ArrayList<>(paintings);
+                break;
+        }
+        reorderListViewRows(selectedSortCriteria);
+    }
+
+    private void reorderListViewRows(int selected) {
+        switch (selected) {
+            case 0:
+                selectedSortCriteria = 0;
+                Collections.sort(paintingsArrayList, new Comparator<Painting>(){
+                    public int compare(Painting a, Painting b) {
+                        return a.getTitle().compareTo(b.getTitle());
+                    }
+                });
+                break;
+            case 1:
+                selectedSortCriteria = 1;
+                Collections.sort(paintingsArrayList, new Comparator<Painting>(){
+                    public int compare(Painting a, Painting b) {
+                        int artistCompare = a.getArtist().compareTo(b.getArtist());
+                        return artistCompare != 0
+                                ? artistCompare
+                                : a.getTitle().compareTo(b.getTitle());
+                    }
+                });
+                break;
+            case 2:
+                selectedSortCriteria = 2;
+                Collections.sort(paintingsArrayList, new Comparator<Painting>(){
+                    public int compare(Painting a, Painting b) {
+                        return a.getRank() - b.getRank();
+                    }
+                });
+                break;
+            default:
                 break;
         }
         setupRowAdapter();

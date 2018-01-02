@@ -1,5 +1,9 @@
 package com.cet325.bg72db.SQLite.Models;
 
+/**
+ * Class to represent Java model to subsequently represent the SQLite painting table/model.
+ * Class provided getters and setters to manage all relevant data.
+ */
 public class Painting {
 
     private int id;

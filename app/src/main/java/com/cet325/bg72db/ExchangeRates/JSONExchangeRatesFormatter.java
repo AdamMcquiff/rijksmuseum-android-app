@@ -5,6 +5,11 @@ import com.cet325.bg72db.ExchangeRates.Models.ExchangeRates;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Class to format the Exchange Rate data captured by the HTTP client class. Creates an instance
+ * of the ExchangeRates model and stores data retrieved from the API into the instance, which
+ * is then used as needed.
+ */
 public class JSONExchangeRatesFormatter {
 
     public static ExchangeRates getExchangeRates(String data) throws JSONException {

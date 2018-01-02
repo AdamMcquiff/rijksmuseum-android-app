@@ -1,8 +1,10 @@
 package com.cet325.bg72db;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -85,6 +87,13 @@ public class TicketInformationActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.paintings_link:
+                Intent paintings_activity_intent = new Intent(getApplicationContext(), PaintingMasterActivity.class);
+                startActivity(paintings_activity_intent);
+            case R.id.find_us:
+                Intent findUsActivityIntent = new Intent(getApplicationContext(), FindUsActivity.class);
+                startActivity(findUsActivityIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -133,7 +142,9 @@ public class TicketInformationActivity extends AppCompatActivity {
         pricesTextView.setText(getString(R.string.currency_final_string, currencySymbol, df.format(ticketPrice), df.format(ticketPrice * .7)));
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class JSONExchangeRateTask extends AsyncTask<String, Void, ExchangeRates> {
+
         @Override
         protected ExchangeRates doInBackground(String... params) {
             ExchangeRates rates = new ExchangeRates();
@@ -152,6 +163,7 @@ public class TicketInformationActivity extends AppCompatActivity {
             super.onPostExecute(rates);
             if (rates != null) gbpExchangeRate = rates.getGBP();
         }
+
     }
 
 }

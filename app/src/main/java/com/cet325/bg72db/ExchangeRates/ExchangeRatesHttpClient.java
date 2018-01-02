@@ -9,9 +9,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+/**
+ * Class to serve as an intractable HTTP client between the Android application and the Exchange Rate
+ * API, Fixer. The client allows the app to get the latest exchange rates.
+ */
 public class ExchangeRatesHttpClient {
-
-    private static String BASE_URL = "https://api.fixer.io/latest?base=";
 
     public String getLatestRates(String baseCurrency) {
         HttpURLConnection con = null;
@@ -19,6 +21,7 @@ public class ExchangeRatesHttpClient {
         String urlString = "";
 
         try {
+            String BASE_URL = "https://api.fixer.io/latest?base=";
             urlString = BASE_URL + URLEncoder.encode(baseCurrency, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,7 +44,7 @@ public class ExchangeRatesHttpClient {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line;
             while ((line = br.readLine()) != null) {
-                buffer.append(line + "\r\n");
+                buffer.append(line).append("\r\n");
             }
             is.close();
             con.disconnect();
@@ -49,8 +52,8 @@ public class ExchangeRatesHttpClient {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try { is.close(); } catch (Exception e) { e.printStackTrace(); }
-            try { con.disconnect(); } catch (Exception e) { e.printStackTrace(); }
+            if (is != null) try { is.close(); } catch (Exception e) { e.printStackTrace(); }
+            if (con != null) try { con.disconnect(); } catch (Exception e) { e.printStackTrace(); }
         }
         return null;
     }

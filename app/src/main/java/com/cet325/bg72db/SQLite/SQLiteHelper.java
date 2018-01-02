@@ -11,6 +11,11 @@ import com.cet325.bg72db.SQLite.Models.Painting;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class to aid interaction between the SQLite DB and the Android application. Uses a set of
+ * standard CRUD operations, alongside some more specific operations (e.g. getPaintingByTitle)
+ * for more obscure use cases.
+ */
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -39,14 +44,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PAINTINGS_TABLE = "CREATE TABLE paintings (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "artist TEXT, "+
-            "title TEXT, "+
-            "room TEXT, "+
-            "description TEXT, "+
-            "image TEXT, "+
-            "year INT, "+
-            "rank INT, " +
-            "added_by TEXT "+
+            KEY_ARTIST + " TEXT, "+
+            KEY_TITLE + " TEXT, "+
+            KEY_ROOM + " TEXT, "+
+            KEY_DESCRIPTION + " TEXT, "+
+            KEY_IMAGE + " TEXT, "+
+            KEY_YEAR + " INT, "+
+            KEY_RANK + " INT, " +
+            KEY_ADDED_BY + " TEXT "+
         ")";
         db.execSQL(CREATE_PAINTINGS_TABLE);
     }
@@ -101,7 +106,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setRank(cursor.getInt(7));
             painting.setAddedBy(cursor.getString(8));
         }
-        cursor.close();
+
+        if (cursor != null) cursor.close();
         return painting;
     }
 
@@ -130,11 +136,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        cursor.close();
+        if (cursor != null) cursor.close();
         return paintings;
     }
 
-    public int updatePainting(Painting painting) {
+    public void updatePainting(Painting painting) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -155,7 +161,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         );
 
         db.close();
-        return i;
     }
 
     public void deletePainting(Painting painting) {
@@ -198,7 +203,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             painting.setAddedBy(cursor.getString(8));
         }
 
-        cursor.close();
+        if (cursor != null) cursor.close();
         return painting;
     }
 

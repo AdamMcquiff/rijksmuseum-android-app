@@ -1,5 +1,6 @@
 package com.cet325.bg72db;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -31,6 +32,7 @@ import java.io.FileNotFoundException;
 public class PaintingDetailActivity extends AppCompatActivity {
 
     ActionBar actionBar = null;
+
     FloatingActionButton editBtn = null;
     ImageView paintingImage = null;
     TextView paintingTitle = null;
@@ -82,6 +84,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
         updateTextFields();
 
         deletePaintingBtn = findViewById(R.id.delete_painting_btn);
+
+        // If painting added by user, show the 'Delete Painting' button
         if (painting.getAddedBy().equals("User")) {
             deletePaintingBtn.setVisibility(View.VISIBLE);
             deletePaintingBtn.setOnClickListener(deletePaintingDialogEventListener);
@@ -104,11 +108,19 @@ public class PaintingDetailActivity extends AppCompatActivity {
                 Intent ticketInfoActivityIntent = new Intent(getApplicationContext(), TicketInformationActivity.class);
                 startActivity(ticketInfoActivityIntent);
                 return true;
+            case R.id.paintings_link:
+                onBackPressed();
+                return true;
+            case R.id.find_us:
+                Intent findUsActivityIntent = new Intent(getApplicationContext(), FindUsActivity.class);
+                startActivity(findUsActivityIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void buildEditPaintingDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
         final View inflaterView = inflater.inflate(R.layout.add_painting_dialog, null);
@@ -153,10 +165,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
                         String title = titleField.getText().toString();
                         String room = roomField.getText().toString();
                         String desc = descField.getText().toString();
-                        int year = 0;
-                        int rank = 0;
-                        if (yearField.length() > 0) year = Integer.parseInt(yearField.getText().toString());
-                        if (rankField.length() > 0) rank = Integer.parseInt(rankField.getText().toString());
+                        int year = yearField.length() > 0 ? Integer.parseInt(yearField.getText().toString()) : 0;
+                        int rank = rankField.length() > 0 ? Integer.parseInt(rankField.getText().toString()) : 0;
 
                         if (isFormValid(artist, title, year, rank)) {
                             painting.setArtist(artist);
@@ -232,4 +242,5 @@ public class PaintingDetailActivity extends AppCompatActivity {
         paintingYear.setText(getString(R.string.detail_painting_year, Integer.toString(painting.getYear())));
         paintingRank.setText(getString(R.string.detail_painting_rank, Integer.toString(painting.getRank())));
     }
+
 }

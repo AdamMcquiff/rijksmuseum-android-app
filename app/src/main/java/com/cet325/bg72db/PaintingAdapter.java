@@ -106,15 +106,15 @@ public class PaintingAdapter extends BaseAdapter {
             dir = params[1];
 
             // If painting has no image, provide placeholder
-            if (fileName == null && dir == null) {
+            if (fileName == null || dir == null) {
                 return BitmapFactory.decodeResource(res, R.drawable.image_placeholder);
             }
 
             try {
-                File f = new File(dir, fileName);
+                File file = new File(dir, fileName);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 16;
-                return BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+                return BitmapFactory.decodeStream(new FileInputStream(file), null, options);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

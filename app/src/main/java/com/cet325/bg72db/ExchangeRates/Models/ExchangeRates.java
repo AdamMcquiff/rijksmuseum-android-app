@@ -1,5 +1,9 @@
 package com.cet325.bg72db.ExchangeRates.Models;
 
+/**
+ * Class to hold the exchange rates for a set of given currencies. In this case, it holds the
+ * Great British Pound (GDP) and Euro (EUR) serves as the base currency.
+ */
 public class ExchangeRates {
 
     private String base;

@@ -2,12 +2,12 @@
 <resources>
     <string-array name="currencies">
         <item>Euro (€)</item>
-        <item>GDP (£)</item>
+        <item>GBP (£)</item>
     </string-array>
 
     <string-array name="currency_codes">
         <item>EUR</item>
-        <item>GDP</item>
+        <item>GBP</item>
     </string-array>
 
     <string-array name="sortable_options">

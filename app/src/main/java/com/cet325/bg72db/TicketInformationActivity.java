@@ -1,6 +1,5 @@
 package com.cet325.bg72db;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,14 +16,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cet325.bg72db.ExchangeRates.ExchangeRatesHttpClient;
+import com.cet325.bg72db.ExchangeRates.ExchangeRatesUtils;
 import com.cet325.bg72db.ExchangeRates.JSONExchangeRatesFormatter;
 import com.cet325.bg72db.ExchangeRates.Models.ExchangeRates;
 
 import org.json.JSONException;
-
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 
 public class TicketInformationActivity extends AppCompatActivity {
 
@@ -33,9 +29,11 @@ public class TicketInformationActivity extends AppCompatActivity {
     FloatingActionButton currencyExchangeBtn = null;
 
     SharedPreferences sharedPreferences = null;
-    static double TICKET_PRICE_EURO = 10.00;
+    double TICKET_PRICE_EURO = 10.00;
     double gbpExchangeRate = 0.88;
     String selectedCurrency;
+
+    ExchangeRatesUtils exchangeRatesUtils = null;
 
     private View.OnClickListener currencyExchangeEventListener = new View.OnClickListener() {
         public void onClick(View view) {
@@ -51,6 +49,8 @@ public class TicketInformationActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
+        exchangeRatesUtils = new ExchangeRatesUtils();
+
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         selectedCurrency = sharedPreferences.getString(
                 getResources().getString(R.string.key_default_currency),
@@ -64,15 +64,13 @@ public class TicketInformationActivity extends AppCompatActivity {
         updatePricesTextView(selectedCurrency);
 
         JSONExchangeRateTask task = new JSONExchangeRateTask();
-        task.execute(selectedCurrency);
+        task.execute("EUR");
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(getString(R.string.key_default_currency), selectedCurrency);
-        editor.apply();
+        updateSharedPreferences();
     }
 
     @Override
@@ -100,54 +98,59 @@ public class TicketInformationActivity extends AppCompatActivity {
     }
 
     private void buildCurrencyDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.currency_dialog_title);
-        builder.setItems(R.array.currencies, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int selected) {
-                String[] currencies = getResources().getStringArray(R.array.currencies);
-                String[] currencyCodes = getResources().getStringArray(R.array.currency_codes);
-                for (int i = 0; i < currencies.length; i++) {
-                    if (selected == i) {
-                        selectedCurrency = currencyCodes[i];
-                        updatePricesTextView(selectedCurrency);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString(getString(R.string.key_default_currency), selectedCurrency);
-                        editor.apply();
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.currency_dialog_title)
+                .setItems(R.array.currencies, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int selected) {
+                        String[] currencies = getResources().getStringArray(R.array.currencies);
+                        String[] currencyCodes = getResources().getStringArray(R.array.currency_codes);
+                        for (int i = 0; i < currencies.length; i++) {
+                            if (selected == i) {
+                                selectedCurrency = currencyCodes[i];
+                                updatePricesTextView(selectedCurrency);
+                                updateSharedPreferences();
+                            }
+                        }
                     }
-                }
-            }
-        });
-        AlertDialog ad = builder.create();
-        ad.show();
+                })
+                .create()
+                .show();
     }
 
     private void updatePricesTextView(String currency) {
-        DecimalFormat df = new DecimalFormat(".##");
-        df.setMinimumFractionDigits(2);
-        double ticketPrice = 0.0;
+        double price = 0.0;
         String currencySymbol = "";
+
         switch (currency) {
             case "EUR":
-                DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
-                otherSymbols.setDecimalSeparator(',');
-                df.setDecimalFormatSymbols(otherSymbols);
-                ticketPrice = TICKET_PRICE_EURO;
+                price = TICKET_PRICE_EURO;
                 currencySymbol = "€";
                 break;
-            case "GDP":
-                ticketPrice = 10 * gbpExchangeRate;
+            case "GBP":
+                price = 10 * gbpExchangeRate;
                 currencySymbol = "£";
                 break;
         }
-        pricesTextView.setText(getString(R.string.currency_final_string, currencySymbol, df.format(ticketPrice), df.format(ticketPrice * .7)));
+
+        pricesTextView.setText(getString(
+                R.string.currency_final_string,
+                currencySymbol,
+                exchangeRatesUtils.formatCurrencyPrice(currency, price),
+                exchangeRatesUtils.formatCurrencyPrice(currency, price * .7)
+        ));
     }
 
-    @SuppressLint("StaticFieldLeak")
+    private void updateSharedPreferences() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(getString(R.string.key_default_currency), selectedCurrency);
+        editor.apply();
+    }
+
     private class JSONExchangeRateTask extends AsyncTask<String, Void, ExchangeRates> {
 
         @Override
         protected ExchangeRates doInBackground(String... params) {
-            ExchangeRates rates = new ExchangeRates();
+            ExchangeRates rates = null;
             String data = new ExchangeRatesHttpClient().getLatestRates(params[0]);
             if (data == null) return null;
             try {

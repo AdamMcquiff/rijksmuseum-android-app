@@ -1,4 +1,4 @@
-package com.cet325.bg72db;
+package com.cet325.bg72db.PaintingListView;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cet325.bg72db.R;
 import com.cet325.bg72db.SQLite.Models.Painting;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class PaintingAdapter extends BaseAdapter {
     private ArrayList<Painting> items;
     private LayoutInflater inflater;
 
-    PaintingAdapter(Context context, ArrayList<Painting> items) {
+    public PaintingAdapter(Context context, ArrayList<Painting> items) {
         this.context = context;
         this.items = items;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,6 +65,7 @@ public class PaintingAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        // Get the painting and populate the activity text fields
         Painting painting = (Painting) getItem(position);
         holder.titleTextView.setText(painting.getTitle());
         holder.artistTextView.setText(painting.getArtist());
@@ -111,6 +113,7 @@ public class PaintingAdapter extends BaseAdapter {
             }
 
             try {
+                // Get the image, setup Bitmap options, set high sample size to reduce memory usage
                 File file = new File(dir, fileName);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 16;

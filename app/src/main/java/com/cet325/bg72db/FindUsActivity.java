@@ -46,22 +46,22 @@ public class FindUsActivity extends AppCompatActivity implements OnMapReadyCallb
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(getApplicationContext(), "Please restart the application",Toast.LENGTH_SHORT).show();
             finish();
+        } else {
+            // Initiate LatLng object, setup map, create marker and move to it
+            LatLng museumLatLng = new LatLng(
+                    Float.parseFloat(getResources().getString(R.string.museum_lat)),
+                    Float.parseFloat(getResources().getString(R.string.museum_lng))
+            );
+            map.setMyLocationEnabled(true);
+            map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+            map.getUiSettings().setZoomControlsEnabled(true);
+            map.getUiSettings().setAllGesturesEnabled(true);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(museumLatLng, 15.0f));
+            map.addMarker(new MarkerOptions().position(museumLatLng)
+                    .title(getResources().getString(R.string.museum_name))
+                    .snippet(getResources().getString(R.string.museum_address)))
+                    .showInfoWindow();
         }
-
-        // Initiate LatLng object, setup map, create marker and move to it
-        LatLng museumLatLng = new LatLng(
-                Float.parseFloat(getResources().getString(R.string.museum_lat)),
-                Float.parseFloat(getResources().getString(R.string.museum_lng))
-        );
-        map.setMyLocationEnabled(true);
-        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        map.getUiSettings().setZoomControlsEnabled(true);
-        map.getUiSettings().setAllGesturesEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(museumLatLng, 15.0f));
-        map.addMarker(new MarkerOptions().position(museumLatLng)
-                .title(getResources().getString(R.string.museum_name))
-                .snippet(getResources().getString(R.string.museum_address)))
-                .showInfoWindow();
     }
 
     @Override
@@ -93,7 +93,8 @@ public class FindUsActivity extends AppCompatActivity implements OnMapReadyCallb
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_LOCATION_REQUEST_CODE:
-                permissionLocationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                if (grantResults.length > 0)
+                    permissionLocationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 break;
         }
         if (!permissionLocationAccepted) finish();

@@ -165,12 +165,18 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public void deletePainting(Painting painting) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         db.delete(
             TABLE_PAINTINGS,
             KEY_ID+" = ?",
             new String[] { String.valueOf(painting.getId()) }
         );
+
+        db.close();
+    }
+
+    public void deleteAllPaintings() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_PAINTINGS);
 
         db.close();
     }

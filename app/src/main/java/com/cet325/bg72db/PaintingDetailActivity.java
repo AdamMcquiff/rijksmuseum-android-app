@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cet325.bg72db.PaintingListView.PaintingUtils;
 import com.cet325.bg72db.SQLite.Models.Painting;
 import com.cet325.bg72db.SQLite.SQLiteHelper;
 
@@ -42,6 +43,8 @@ public class PaintingDetailActivity extends AppCompatActivity {
     TextView paintingRoom = null;
     TextView paintingRank = null;
     Button deletePaintingBtn = null;
+
+    PaintingUtils paintingUtils = null;
 
     SQLiteHelper sqLiteHelper = null;
     Painting painting = null;
@@ -71,7 +74,11 @@ public class PaintingDetailActivity extends AppCompatActivity {
 
         sqLiteHelper = new SQLiteHelper(getApplicationContext());
 
+        // Get painting by title. Used this instead of ID as if the painting has just been added
+        // by the user, the id will not be accessible.
         painting = sqLiteHelper.getPaintingByTitle(this.getIntent().getExtras().getString("title"));
+
+        paintingUtils = new PaintingUtils();
 
         paintingImage = (ImageView) findViewById(R.id.painting_image);
         paintingTitle = (TextView) findViewById(R.id.painting_title);
@@ -122,6 +129,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void buildEditPaintingDialog() {
+        // Setup Edit Painting dialog and store EditText fields into variables.
         LayoutInflater inflater = LayoutInflater.from(this);
         final View inflaterView = inflater.inflate(R.layout.add_painting_dialog, null);
         final EditText titleField = (EditText) inflaterView.findViewById(R.id.edit_painting_title);
@@ -140,6 +148,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
             yearField.setEnabled(false);
         }
 
+        // Populate EditText fields with pre-existing painting data.
         titleField.setText(painting.getTitle());
         artistField.setText(painting.getArtist());
         descField.setText(painting.getDescription());
@@ -147,6 +156,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
         yearField.setText(Integer.toString(painting.getYear()));
         rankField.setText(Integer.toString(painting.getRank()));
 
+        // Build dialog
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.detail_painting_edit_dialog_title)
                 .setView(inflaterView)
@@ -154,6 +164,9 @@ public class PaintingDetailActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .create();
 
+        // Add separate listener for button positive click to stop dialog from closing in the event
+        // that the form is not valid, which would be the case if a listener was added on the
+        // AlertDialog Builder setPositiveButton method.
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -161,6 +174,7 @@ public class PaintingDetailActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // Get form data
                         String artist = artistField.getText().toString();
                         String title = titleField.getText().toString();
                         String room = roomField.getText().toString();
@@ -168,7 +182,12 @@ public class PaintingDetailActivity extends AppCompatActivity {
                         int year = yearField.length() > 0 ? Integer.parseInt(yearField.getText().toString()) : 0;
                         int rank = rankField.length() > 0 ? Integer.parseInt(rankField.getText().toString()) : 0;
 
-                        if (isFormValid(artist, title, year, rank)) {
+                        // Check form data for errors
+                        String[] formErrors = paintingUtils.getFormErrors(artist, title, year, rank);
+
+                        // If no errors, update painting, update activity,
+                        // send Toast notification and close dialog
+                        if (formErrors.length == 0) {
                             painting.setArtist(artist);
                             painting.setTitle(title);
                             painting.setRoom(room);
@@ -179,6 +198,12 @@ public class PaintingDetailActivity extends AppCompatActivity {
                             updateTextFields();
                             Toast.makeText(getApplicationContext(), "Painting successfully edited", Toast.LENGTH_LONG).show();
                             dialog.dismiss();
+                        } else {
+                            // If errors, loop through and present to user via Toast notification
+                            for (String formError : formErrors) {
+                                if (formError != null)
+                                    Toast.makeText(getApplicationContext(), formError, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });
@@ -186,23 +211,6 @@ public class PaintingDetailActivity extends AppCompatActivity {
         });
 
         dialog.show();
-    }
-
-    private boolean isFormValid(String artist, String title, int year, int rank) {
-        if (title.length() == 0) {
-            Toast.makeText(getApplicationContext(), "Painting Title is required.", Toast.LENGTH_LONG).show();
-            return false;
-        } else if (artist.length() == 0) {
-            Toast.makeText(getApplicationContext(), "Painting Artist is required.", Toast.LENGTH_LONG).show();
-            return false;
-        }else if (Integer.toString(year).length() < 4) {
-            Toast.makeText(getApplicationContext(), "Painting Year is required and must be 4 digits.", Toast.LENGTH_LONG).show();
-            return false;
-        } else if (rank < 0 || rank > 5) {
-            Toast.makeText(getApplicationContext(), "Painting Rank must be between 0 and 5. Please enter 0 if un-ranked.", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
     }
 
     private void buildDeletePaintingDialog() {

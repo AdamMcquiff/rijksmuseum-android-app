@@ -51,6 +51,7 @@ public class TicketInformationActivity extends AppCompatActivity {
 
         exchangeRatesUtils = new ExchangeRatesUtils();
 
+        // Get user's currency preference
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);
         selectedCurrency = sharedPreferences.getString(
                 getResources().getString(R.string.key_default_currency),
@@ -164,7 +165,10 @@ public class TicketInformationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ExchangeRates rates) {
             super.onPostExecute(rates);
-            if (rates != null) gbpExchangeRate = rates.getGBP();
+            if (rates != null) {
+                gbpExchangeRate = rates.getGBP();
+                updatePricesTextView(selectedCurrency);
+            }
         }
 
     }

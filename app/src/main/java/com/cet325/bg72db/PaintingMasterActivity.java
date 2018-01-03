@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cet325.bg72db.PaintingListView.PaintingAdapter;
+import com.cet325.bg72db.PaintingListView.PaintingUtils;
 import com.cet325.bg72db.SQLite.Models.Painting;
 import com.cet325.bg72db.SQLite.SQLiteHelper;
 
@@ -39,6 +40,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
     ArrayList<Painting> paintingsArrayList = null;
 
     PaintingAdapter adapter = null;
+    PaintingUtils paintingUtils = null;
 
     int selectedSortCriteria = 0;
     int selectedFilterCriteria = 0;
@@ -65,6 +67,8 @@ public class PaintingMasterActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Painting painting = paintingsArrayList.get(position);
             Intent intent = new Intent(getApplicationContext(), PaintingDetailActivity.class);
+            // Only send ID and title to intent, as detail activity will retrieve from db
+            // using one of these values
             intent.putExtra("id", painting.getId());
             intent.putExtra("title", painting.getTitle());
             startActivity(intent);
@@ -89,6 +93,8 @@ public class PaintingMasterActivity extends AppCompatActivity {
         SqLiteHelper = new SQLiteHelper(getApplicationContext());
         allPaintings = SqLiteHelper.getAllPaintings();
 
+        paintingUtils = new PaintingUtils();
+
         paintingsListView = (ListView) findViewById(R.id.paintings_list_view);
         paintingsListView.setOnItemClickListener(rowEventListener);
         paintingsArrayList = new ArrayList<>(allPaintings);
@@ -98,6 +104,8 @@ public class PaintingMasterActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Ensure painting has been added to list after AddPainting dialog interaction,
+        // in event that painting has been added
         allPaintings = SqLiteHelper.getAllPaintings();
         paintingsArrayList = new ArrayList<>(allPaintings);
         reorderListViewRows(selectedSortCriteria);
@@ -162,6 +170,9 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .create();
 
+        // Add separate listener for button positive click to stop dialog from closing in the event
+        // that the form is not valid, which would be the case if a listener was added on the
+        // AlertDialog Builder setPositiveButton method.
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -169,6 +180,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // Get form fields and store in variables
                         EditText titleField = (EditText) inflaterView.findViewById(R.id.edit_painting_title);
                         EditText artistField = (EditText) inflaterView.findViewById(R.id.edit_painting_artist);
                         EditText yearField = (EditText) inflaterView.findViewById(R.id.edit_painting_year);
@@ -176,6 +188,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
                         EditText descField = (EditText) inflaterView.findViewById(R.id.edit_painting_description);
                         EditText rankField = (EditText) inflaterView.findViewById(R.id.edit_painting_rank);
 
+                        // Get data from form fields and store in variables
                         String artist = artistField.getText().toString();
                         String title = titleField.getText().toString();
                         String room = roomField.getText().toString();
@@ -183,13 +196,24 @@ public class PaintingMasterActivity extends AppCompatActivity {
                         int year = yearField.length() > 0 ? Integer.parseInt(yearField.getText().toString()) : 0;
                         int rank = rankField.length() > 0 ? Integer.parseInt(rankField.getText().toString()) : 0;
 
-                        if (isFormValid(artist, title, year, rank)) {
+                        // Check form for errors
+                        String[] formErrors = paintingUtils.getFormErrors(artist, title, year, rank);
+
+                        // If no errors, store painting in db, add to list view array list, reorder list view
+                        // to compensate for new item, show Toast notification to user, close dialog.
+                        if (formErrors.length == 0) {
                             Painting painting = new Painting(artist, title, room, desc, null, year, rank, "User");
                             SqLiteHelper.addPainting(painting);
                             paintingsArrayList.add(painting);
                             reorderListViewRows(selectedSortCriteria);
                             Toast.makeText(getApplicationContext(), "Painting successfully added", Toast.LENGTH_LONG).show();
                             dialog.dismiss();
+                        } else {
+                            // If error, loop through errors and present to user via Toast notifications
+                            for (String formError : formErrors) {
+                                if (formError != null)
+                                    Toast.makeText(getApplicationContext(), formError, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });
@@ -198,31 +222,19 @@ public class PaintingMasterActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private boolean isFormValid(String artist, String title, int year, int rank) {
-        if (title.length() == 0) {
-            Toast.makeText(getApplicationContext(), "Painting Title is required.", Toast.LENGTH_LONG).show();
-            return false;
-        } else if (artist.length() == 0) {
-            Toast.makeText(getApplicationContext(), "Painting Artist is required.", Toast.LENGTH_LONG).show();
-            return false;
-        }else if (Integer.toString(year).length() < 4) {
-            Toast.makeText(getApplicationContext(), "Painting Year is required and must be 4 digits.", Toast.LENGTH_LONG).show();
-            return false;
-        } else if (rank < 0 || rank > 5) {
-            Toast.makeText(getApplicationContext(), "Painting Rank must be between 0 and 5. Please enter 0 or leave empty if un-ranked.", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
-    }
-
     private void filterRows(int selected) {
+        // Initialise paintings ArrayList to temp store filtered paintings
         List<Painting> paintings = new ArrayList<>();
+
+        // Reset paintingArrayList in case of previous filters
         paintingsArrayList = new ArrayList<>(allPaintings);
-        Log.d("selected", Integer.toString(selected));
         switch (selected) {
+            // No filtering, simply use fresh array list and save user preference.
             case 0:
                 selectedFilterCriteria = 0;
                 break;
+            // Filter to ranked; save user preference; loop array and check rank,
+            // store ranked in paintings array list and reinitialise paintingsArrayList.
             case 1:
                 selectedFilterCriteria = 1;
                 for (int i = 0; i < paintingsArrayList.size(); i++) {
@@ -231,6 +243,8 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 }
                 paintingsArrayList = new ArrayList<>(paintings);
                 break;
+            // Filter to un-ranked; save user preference; loop array and check rank,
+            // store un-ranked in paintings array list and reinitialise paintingsArrayList.
             case 2:
                 selectedFilterCriteria = 2;
                 for (int i = 0; i < paintingsArrayList.size(); i++) {
@@ -240,11 +254,16 @@ public class PaintingMasterActivity extends AppCompatActivity {
                 paintingsArrayList = new ArrayList<>(paintings);
                 break;
         }
+
+        // Reorder ListView rows using previously selected user sort criteria; this
+        // will also reinitialise the list view adapter.
         reorderListViewRows(selectedSortCriteria);
     }
 
     private void reorderListViewRows(int selected) {
+        // Switch statement; save user preference; sort collection as appropriate
         switch (selected) {
+            // Sort by title
             case 0:
                 selectedSortCriteria = 0;
                 Collections.sort(paintingsArrayList, new Comparator<Painting>(){
@@ -253,6 +272,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
                     }
                 });
                 break;
+            // Sort by artist, title
             case 1:
                 selectedSortCriteria = 1;
                 Collections.sort(paintingsArrayList, new Comparator<Painting>(){
@@ -264,6 +284,7 @@ public class PaintingMasterActivity extends AppCompatActivity {
                     }
                 });
                 break;
+            // Sort by rank
             case 2:
                 selectedSortCriteria = 2;
                 Collections.sort(paintingsArrayList, new Comparator<Painting>(){

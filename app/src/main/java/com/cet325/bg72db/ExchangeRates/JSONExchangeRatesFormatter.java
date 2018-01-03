@@ -12,6 +12,11 @@ import org.json.JSONObject;
  */
 public class JSONExchangeRatesFormatter {
 
+    /**
+     * @param data the data returned from the API.
+     * @return an instance of ExchangeRates populated with data from the exchange rate API.
+     * @throws JSONException ...
+     */
     public static ExchangeRates getExchangeRates(String data) throws JSONException {
         ExchangeRates rates = new ExchangeRates();
         JSONObject jsonObj = new JSONObject(data);
